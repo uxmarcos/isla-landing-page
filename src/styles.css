@@ -1,0 +1,448 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/*
+ * Design system definition.
+ *
+ * The @theme inline block maps CSS custom properties to Tailwind utility
+ * classes (e.g. --color-primary -> bg-primary, text-primary).
+ *
+ * The :root and .dark blocks define the actual color values using oklch.
+ * All colors MUST use oklch format.
+ *
+ * To add a new semantic color:
+ * 1. Add the variable to :root (light value) and .dark (dark value)
+ * 2. Register it in @theme inline as --color-<name>: var(--<name>)
+ */
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --radius-4xl: calc(var(--radius) + 16px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-ring-offset-background: var(--background);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --animate-meteor: meteor 5s linear infinite;
+  @keyframes meteor {
+  0% {
+    transform: rotate(var(--angle)) translateX(0);
+    opacity: 1;
+    }
+  70% {
+    opacity: 1;
+    }
+  100% {
+    transform: rotate(var(--angle)) translateX(-500px);
+    opacity: 0;
+    }
+  }
+}
+
+:root {
+  --radius: 0.625rem;
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.129 0.042 264.695);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.129 0.042 264.695);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.129 0.042 264.695);
+  --primary: oklch(0.208 0.042 265.755);
+  --primary-foreground: oklch(0.984 0.003 247.858);
+  --secondary: oklch(0.968 0.007 247.896);
+  --secondary-foreground: oklch(0.208 0.042 265.755);
+  --muted: oklch(0.968 0.007 247.896);
+  --muted-foreground: oklch(0.554 0.046 257.417);
+  --accent: oklch(0.968 0.007 247.896);
+  --accent-foreground: oklch(0.208 0.042 265.755);
+  --destructive: oklch(0.577 0.245 27.325);
+  --destructive-foreground: oklch(0.984 0.003 247.858);
+  --border: oklch(0.929 0.013 255.508);
+  --input: oklch(0.929 0.013 255.508);
+  --ring: oklch(0.704 0.04 256.788);
+  --chart-1: oklch(0.646 0.222 41.116);
+  --chart-2: oklch(0.6 0.118 184.704);
+  --chart-3: oklch(0.398 0.07 227.392);
+  --chart-4: oklch(0.828 0.189 84.429);
+  --chart-5: oklch(0.769 0.188 70.08);
+  --sidebar: oklch(0.984 0.003 247.858);
+  --sidebar-foreground: oklch(0.129 0.042 264.695);
+  --sidebar-primary: oklch(0.208 0.042 265.755);
+  --sidebar-primary-foreground: oklch(0.984 0.003 247.858);
+  --sidebar-accent: oklch(0.968 0.007 247.896);
+  --sidebar-accent-foreground: oklch(0.208 0.042 265.755);
+  --sidebar-border: oklch(0.929 0.013 255.508);
+  --sidebar-ring: oklch(0.704 0.04 256.788);
+}
+
+.dark {
+  /* Dark theme tokens — mirrored from the Isla V2 product app */
+  --background: #0A0A0A;
+  --foreground: oklch(0.98 0.005 260);
+  --card: #111111;
+  --card-foreground: oklch(0.98 0.005 260);
+  --popover: #111111;
+  --popover-foreground: oklch(0.98 0.005 260);
+  --primary: #00BFFF;
+  --primary-foreground: #FFFFFF;
+  --secondary: #1A1A1A;
+  --secondary-foreground: oklch(0.98 0.005 260);
+  --muted: #1A1A1A;
+  --muted-foreground: oklch(0.65 0.015 260);
+  --accent: #00BFFF;
+  --accent-foreground: #0A0A0A;
+  --destructive: oklch(0.65 0.22 27);
+  --destructive-foreground: oklch(0.98 0.005 260);
+  --border: #2C2C2C;
+  --input: #2C2C2C;
+  --ring: #00BFFF;
+  --chart-1: oklch(0.488 0.243 264.376);
+  --chart-2: oklch(0.696 0.17 162.48);
+  --chart-3: oklch(0.769 0.188 70.08);
+  --chart-4: oklch(0.627 0.265 303.9);
+  --chart-5: oklch(0.645 0.246 16.439);
+  --sidebar: #0A0A0A;
+  --sidebar-foreground: oklch(0.92 0.005 260);
+  --sidebar-primary: #00BFFF;
+  --sidebar-primary-foreground: #0A0A0A;
+  --sidebar-accent: #1A1A1A;
+  --sidebar-accent-foreground: oklch(0.98 0.005 260);
+  --sidebar-border: #2C2C2C;
+  --sidebar-ring: #00BFFF;
+  /* Isla V2 surface aliases */
+  --isla-bg: #0A0A0A;
+  --isla-surface: #111111;
+  --isla-surface-2: #1A1A1A;
+  --isla-stroke: #2C2C2C;
+}
+
+:root {
+  --isla-bg: #FFFFFF;
+  --isla-surface: #FFFFFF;
+  --isla-surface-2: #FBFBFB;
+  --isla-stroke: #E6E6E6;
+}
+
+@theme inline {
+  --color-isla-bg: var(--isla-bg);
+  --color-isla-surface: var(--isla-surface);
+  --color-isla-surface-2: var(--isla-surface-2);
+  --color-isla-stroke: var(--isla-stroke);
+}
+
+/* View Transitions — smooth theme swap */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+::view-transition-old(root) { z-index: 1; }
+::view-transition-new(root) { z-index: 2147483646; }
+
+@theme inline {
+  --color-isla-cyan: #00BFFF;
+  --font-display: "DM Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "DM Sans", ui-sans-serif, system-ui, sans-serif;
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  html, body {
+    max-width: 100%;
+    overflow-x: clip;
+  }
+
+  body {
+    background-color: #000;
+    color: var(--color-foreground);
+    font-family: "DM Sans", ui-sans-serif, system-ui, sans-serif;
+  }
+
+  .dark body {
+    background-color: #0A0A0A;
+  }
+
+  html {
+    color-scheme: light;
+  }
+  html.dark {
+    color-scheme: dark;
+  }
+}
+
+@layer utilities {
+  .font-display { font-family: "DM Sans", ui-sans-serif, system-ui, sans-serif; }
+  .text-isla-cyan { color: #00BFFF; }
+  .bg-isla-cyan { background-color: #00BFFF; }
+  .border-isla-cyan { border-color: #00BFFF; }
+
+  @keyframes hero-rise {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .hero-rise {
+    opacity: 0;
+    animation: hero-rise 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+
+  @keyframes window-open {
+    0% {
+      opacity: 0;
+      transform: scale(0.5) translateY(40px);
+      transform-origin: top center;
+      filter: blur(8px);
+      clip-path: inset(0 40% 100% 40% round 12px);
+    }
+    60% {
+      opacity: 1;
+      filter: blur(0);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+      transform-origin: top center;
+      filter: blur(0);
+      clip-path: inset(0 0 0 0 round 12px);
+    }
+  }
+  .window-open {
+    opacity: 0;
+    animation: window-open 0.85s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    transform-origin: top center;
+    will-change: transform, opacity, clip-path;
+  }
+
+  @keyframes marquee-x {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+  .animate-marquee {
+    animation: marquee-x 40s linear infinite;
+  }
+
+  @keyframes isla-ripple {
+    0%   { transform: scale(0.86); opacity: 0.55; }
+    70%  { transform: scale(1.18); opacity: 0; }
+    100% { transform: scale(1.18); opacity: 0; }
+  }
+
+  /* Underline-on-hover that grows left-to-right behind text */
+  .hover-underline {
+    background-image: linear-gradient(currentColor, currentColor);
+    background-repeat: no-repeat;
+    background-position: 0 100%;
+    background-size: 0% 1px;
+    transition: background-size 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+    padding-bottom: 2px;
+  }
+  .group:hover .hover-underline {
+    background-size: 100% 1px;
+  }
+  .hover-underline-delay {
+    transition-delay: 0.25s;
+  }
+
+  /* Arrow slide-out-right then slide-in-from-left */
+  @keyframes arrow-slide-through {
+    0%   { transform: translateX(0); opacity: 1; }
+    45%  { transform: translateX(140%); opacity: 0; }
+    46%  { transform: translateX(-140%); opacity: 0; }
+    100% { transform: translateX(0); opacity: 1; }
+  }
+  .group:hover .arrow-slide {
+    animation: arrow-slide-through 0.7s cubic-bezier(0.65, 0, 0.35, 1);
+  }
+
+  /*
+   * Card notch — concave cut-out that wraps the bottom-right CTA button.
+   * The notch is a white square in the card's bottom-right corner.
+   * Two small pseudo-elements (same color as the card) sit just above
+   * and just to the left of the notch with a bottom-right rounded corner,
+   * producing concave curves so the notch flows into the card surface.
+   *
+   * Set --notch-card-bg on the parent card to the card's background color.
+   */
+  .card-notch {
+    --notch-size: 72px;
+    --notch-w: var(--notch-size);
+    --notch-h: var(--notch-size);
+    --notch-radius: 18px;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: var(--notch-w);
+    height: var(--notch-h);
+    background: white;
+    border-top-left-radius: var(--notch-radius);
+    pointer-events: none;
+  }
+  /* Concave curve ABOVE the notch — sits on the card's right edge */
+  .card-notch::before {
+    content: "";
+    position: absolute;
+    top: calc(-1 * var(--notch-radius));
+    right: 0;
+    width: var(--notch-radius);
+    height: var(--notch-radius);
+    background: var(--notch-card-bg, white);
+    border-bottom-right-radius: var(--notch-radius);
+  }
+  /* Concave curve LEFT of the notch — sits on the card's bottom edge */
+  .card-notch::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: calc(-1 * var(--notch-radius));
+    width: var(--notch-radius);
+    height: var(--notch-radius);
+    background: var(--notch-card-bg, white);
+    border-bottom-right-radius: var(--notch-radius);
+  }
+}
+/* Blog article prose */
+.blog-content {
+  color: #1a1a1a;
+  font-size: 16px;
+  line-height: 1.75;
+}
+.blog-content > * + * { margin-top: 1.25em; }
+.blog-content h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  margin-top: 2.25em;
+  color: #0a0a0a;
+}
+.blog-content h3 {
+  font-size: 1.15rem;
+  font-weight: 600;
+  margin-top: 1.75em;
+  color: #0a0a0a;
+}
+.blog-content h4 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-top: 1.5em;
+  color: #0a0a0a;
+}
+.blog-content p { color: #404040; }
+.blog-content a {
+  color: #00BFFF;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.blog-content ul, .blog-content ol {
+  padding-left: 1.25rem;
+  color: #404040;
+}
+.blog-content ul { list-style: disc; }
+.blog-content ol { list-style: decimal; }
+.blog-content li + li { margin-top: 0.35em; }
+.blog-content blockquote {
+  border-left: 3px solid #00BFFF;
+  padding-left: 1rem;
+  color: #525252;
+  font-style: italic;
+}
+.blog-content figure {
+  margin: 2em 0;
+}
+.blog-content img {
+  width: 100%;
+  border-radius: 0.5rem;
+}
+.blog-content figcaption {
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+  color: #737373;
+  text-align: center;
+}
+.blog-content pre {
+  background: #0a0a0a;
+  color: #f5f5f5;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  overflow-x: auto;
+  font-size: 0.85rem;
+}
+.blog-content code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+.blog-content hr {
+  border: none;
+  border-top: 1px solid #e5e5e5;
+  margin: 2.5em 0;
+}
+
+/* Blog prose — dark mode */
+.dark .blog-content { color: #E8E8E8; }
+.dark .blog-content h2,
+.dark .blog-content h3,
+.dark .blog-content h4 { color: #FFFFFF; }
+.dark .blog-content p,
+.dark .blog-content ul,
+.dark .blog-content ol { color: rgba(255, 255, 255, 0.72); }
+.dark .blog-content blockquote { color: rgba(255, 255, 255, 0.6); }
+.dark .blog-content figcaption { color: rgba(255, 255, 255, 0.45); }
+.dark .blog-content pre { background: #111111; color: #F5F5F5; }
+.dark .blog-content hr { border-top: 1px solid #2C2C2C; }
+
+/* Subtle scroll reveal for section text */
+.reveal {
+  opacity: 0;
+  transform: translateY(14px);
+  transition:
+    opacity 0.7s ease,
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform;
+}
+.reveal-in {
+  opacity: 1;
+  transform: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}

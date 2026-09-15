@@ -1,0 +1,30 @@
+.card-swap-container {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  transform: translate(-8%, -6%);
+  transform-origin: bottom right;
+  perspective: 900px;
+  overflow: visible;
+}
+
+@media (max-width: 1023px) {
+  .card-swap-container {
+    transform: translate(-50%, -8%);
+    transform-origin: center center;
+    left: 50%;
+    right: auto;
+    bottom: 0;
+    margin-left: 0;
+  }
+}
+
+.card {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  border-radius: 24px;
+  transform-style: preserve-3d;
+  will-change: transform;
+  backface-visibility: hidden;
+}
