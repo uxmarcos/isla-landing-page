@@ -4,6 +4,7 @@ import SlideLabel from "@/components/ui/SlideLabel";
 import ProductShowcase from "@/components/ui/ProductShowcase";
 import { AnimatePresence, motion } from "framer-motion";
 import { getStartedProps } from "@/hooks/useCalBooking";
+import { useLocale } from "@/hooks/useLocale";
 
 /**
  * Mobile-only visual for this section. Swap this for an imported image
@@ -22,37 +23,18 @@ function IslaMark() {
 
 type Turn = { q: string; a: string };
 
-const TURNS: Turn[] = [
-  {
-    q: "Let's start with \u201cStop measuring your marketing team by leads\u201d. What actually happened that made you realize this?",
-    a: "I was building the pipeline dashboard for our head of sales, and the number he actually cared about wasn't on it \u2014 he just wanted to know which deals were slipping this week.",
-  },
-  {
-    q: "Interesting. Who exactly do you disagree with \u2014 and what's the cost of ignoring it?",
-    a: "Most demand gen playbooks. They optimize for volume, so you end up with a full CRM and an empty quarter.",
-  },
-  {
-    q: "What changed once you started reporting on defensible pipeline instead?",
-    a: "Our weekly review went from arguing about MQL definitions to picking three accounts to actually unblock.",
-  },
-  {
-    q: "What would you tell a marketing leader who wants to make that shift next quarter?",
-    a: "Pick one number your sales lead already trusts, and report only that for 90 days. Everything else is noise.",
-  },
-];
-
 const READ_MS = 1700;
 const TYPE_MS = 3200;
 const HOLD_MS = 800;
 const GAP_MS = 700;
 const TURN_MS = READ_MS + TYPE_MS + HOLD_MS + GAP_MS;
-const CYCLE_MS = TURNS.length * TURN_MS + 1800;
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
 type Entry = { id: string; role: "isla" | "you"; text: string };
 
-function useInterviewLoop(active: boolean) {
+function useInterviewLoop(active: boolean, TURNS: Turn[]) {
+  const CYCLE_MS = TURNS.length * TURN_MS + 1800;
   const [turn, setTurn] = useState(0);
   const [phase, setPhase] = useState<"asking" | "listening">("asking");
   const [typed, setTyped] = useState("");
@@ -124,7 +106,7 @@ function useInterviewLoop(active: boolean) {
 
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
-  }, [active]);
+  }, [active, TURNS]);
 
   return { turn, phase, typed, entries, elapsed, progress, cycle: cycleRef.current };
 }
@@ -154,8 +136,10 @@ export function AiInterviewSection() {
     obs.observe(node);
     return () => obs.disconnect();
   }, []);
+  const { dict } = useLocale();
+  const TURNS = dict.aiInterview.turns;
   const { turn, phase, typed, entries, elapsed, progress } =
-    useInterviewLoop(active);
+    useInterviewLoop(active, TURNS);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useLayoutEffect(() => {
@@ -176,13 +160,11 @@ export function AiInterviewSection() {
         {/* Header */}
         <div className="mx-auto max-w-3xl text-center">
           <h2 className="font-display text-[34px] font-normal leading-[1.06] tracking-[-0.03em] text-slate-900 md:text-[52px] dark:text-white">
-            Refine the idea in just 4 minutes with the{" "}
-            <span className="italic text-isla-cyan">Isla interviewer.</span>
+            {dict.aiInterview.heading}{" "}
+            <span className="italic text-isla-cyan">{dict.aiInterview.headingHighlight}</span>
           </h2>
           <p className="mx-auto mt-6 max-w-2xl text-[15px] leading-relaxed text-slate-500 md:text-[16px] dark:text-white/65">
-            Liked an idea? Do a quick interview with the AI about it. In four
-            minutes, you turn that insight into your first draft post, ready to
-            adjust with the agent or send for human review by the Isla team.
+            {dict.aiInterview.subheadline}
           </p>
           <a
             {...getStartedProps}
@@ -190,7 +172,7 @@ export function AiInterviewSection() {
             data-cta-label="Get Started"
             className="group mt-8 inline-flex cursor-pointer items-center gap-1.5 rounded-[4px] bg-isla-cyan py-1 pl-3.5 pr-1 text-[14px] font-bold text-white shadow-[0_0_20px_rgba(0,191,255,0.35)] transition-transform hover:scale-[1.02]"
           >
-            <SlideLabel primary="Get Started" secondary="Let's go" />
+            <SlideLabel primary={dict.aiInterview.cta} secondary={dict.aiInterview.ctaSecondary} />
             <span className="flex h-7 w-7 items-center justify-center rounded-[3px] transition-transform group-hover:rotate-45">
               <ArrowUpRight className="h-4 w-4" strokeWidth={2.5} />
             </span>
@@ -207,7 +189,7 @@ export function AiInterviewSection() {
               <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
             </span>
             <span className="font-medium text-slate-700 dark:text-white/65">
-              Live call with Isla
+              {dict.aiInterview.liveCall}
             </span>
             <span className="font-mono tabular-nums text-slate-400 dark:text-white/45">
               {formatTime(elapsed)}
@@ -219,26 +201,24 @@ export function AiInterviewSection() {
             <div className="hidden h-full flex-col justify-between overflow-hidden border-slate-200 p-6 lg:flex lg:border-r dark:border-[#2C2C2C]">
               <div>
                 <div className="font-mono text-[10.5px] font-semibold uppercase tracking-[0.2em] text-slate-400 dark:text-white/45">
-                  Refining now
+                  {dict.aiInterview.refiningNow}
                 </div>
                 <p className="mt-4 text-[15px] font-semibold leading-snug text-slate-900 dark:text-white">
-                  Stop measuring your marketing team by 'leads'. Start measuring
-                  them by pipeline they can defend in a room full of skeptics.
+                  {dict.aiInterview.refiningTitle}
                 </p>
 
                 <div className="mt-6 font-mono text-[10.5px] font-semibold uppercase tracking-[0.2em] text-slate-400 dark:text-white/45">
-                  Pillar
+                  {dict.aiInterview.pillarLabel}
                 </div>
                 <p className="mt-1.5 text-[14px] text-slate-700 dark:text-white/65">
-                  Marketing Leadership
+                  {dict.aiInterview.pillarValue}
                 </p>
 
                 <div className="mt-5 font-mono text-[10.5px] font-semibold uppercase tracking-[0.2em] text-slate-400 dark:text-white/45">
-                  Angle
+                  {dict.aiInterview.angleLabel}
                 </div>
                 <p className="mt-1.5 text-[13.5px] leading-relaxed text-slate-600 dark:text-white/45">
-                  Reframe marketing accountability from vanity metrics to
-                  revenue conversations.
+                  {dict.aiInterview.angleValue}
                 </p>
 
                 <div className="mt-5 flex flex-wrap gap-2">
@@ -255,7 +235,7 @@ export function AiInterviewSection() {
 
               <div className="mt-10">
                 <div className="font-mono text-[10.5px] font-semibold uppercase tracking-[0.2em] text-slate-400 dark:text-white/45">
-                  Call progress
+                  {dict.aiInterview.callProgress}
                 </div>
                 <div className="mt-2.5 h-1.5 w-full overflow-hidden rounded-full bg-slate-200 dark:bg-[#1A1A1A]">
                   <div
@@ -268,7 +248,7 @@ export function AiInterviewSection() {
                   />
                 </div>
                 <p className="mt-2 text-[12.5px] tabular-nums text-slate-500 dark:text-white/45">
-                  Q{turn + 1}/{TURNS.length} · {TURNS.length - turn - 1} left
+                  {dict.aiInterview.qOf(turn + 1, TURNS.length, TURNS.length - turn - 1)}
                 </p>
               </div>
             </div>
@@ -316,7 +296,7 @@ export function AiInterviewSection() {
                     ) : (
                       <Mic className="size-4 animate-pulse text-isla-cyan" />
                     )}
-                    {speaking ? "Isla speaking" : "Listening"}
+                    {speaking ? dict.aiInterview.islaSpeaking : dict.aiInterview.listening}
                   </motion.span>
                 </AnimatePresence>
               </div>
@@ -345,7 +325,7 @@ export function AiInterviewSection() {
                 }}
               >
                 <div className="font-mono text-[10.5px] font-semibold uppercase tracking-[0.2em] text-slate-400 dark:text-white/45">
-                  You
+                  {dict.aiInterview.you}
                 </div>
                 <p className="mt-2 text-[14.5px] leading-relaxed text-slate-700 dark:text-white/65">
                   {typed}
@@ -357,7 +337,7 @@ export function AiInterviewSection() {
             {/* Right · transcript (desktop only) */}
             <div className="hidden h-full flex-col overflow-hidden border-slate-200 p-6 lg:flex lg:border-l dark:border-[#2C2C2C]">
               <div className="font-mono text-[10.5px] font-semibold uppercase tracking-[0.2em] text-slate-400 dark:text-white/45">
-                Transcript
+                {dict.aiInterview.transcript}
               </div>
               <div
                 ref={scrollRef}
@@ -390,11 +370,11 @@ export function AiInterviewSection() {
           <div className="hidden items-center justify-center gap-3 border-t border-slate-200 bg-white px-4 py-4 md:flex dark:border-[#2C2C2C] dark:bg-[#111111]">
             <span className="inline-flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-4 py-2.5 text-[13.5px] font-medium text-slate-700 shadow-sm dark:border-[#2C2C2C] dark:bg-[#1A1A1A] dark:text-white/65 dark:shadow-none">
               <Keyboard className="size-4 text-slate-400 dark:text-white/45" strokeWidth={2} />
-              Type instead
+              {dict.aiInterview.typeInstead}
             </span>
             <span className="inline-flex items-center gap-2 rounded-lg bg-[#F04438] px-4 py-2.5 text-[13.5px] font-semibold text-white shadow-sm dark:shadow-none">
               <PhoneOff className="size-4" strokeWidth={2} />
-              End call
+              {dict.aiInterview.endCall}
             </span>
           </div>
         </div>

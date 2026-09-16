@@ -1,70 +1,8 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Plus, Minus, Search } from "lucide-react";
+import { useLocale } from "@/hooks/useLocale";
 
 type QA = { q: string; a: string; topic: "General" | "Product" | "Security & Billing" };
-
-const faqs: QA[] = [
-  {
-    topic: "General",
-    q: "What exactly is Isla?",
-    a: "Isla is one system that turns your team's LinkedIn network into warm pipeline. It maps every connection against your ICP, adds new relevant prospects daily, creates content in your real voice, warms the right relationships, and tells you the moment someone is ready for a conversation \u2014 with a dedicated operator running all of it.",
-  },
-  {
-    topic: "General",
-    q: "How is this different from a content agency or an outbound tool?",
-    a: "Agencies help you write. Cold outbound tools help you message strangers. Automation tools help you send more requests. Isla connects all of it into one feedback loop: research improves content, content creates signals, signals improve prioritization, and prioritization drives the daily actions that create conversations.",
-  },
-  {
-    topic: "General",
-    q: "How fast do I see results?",
-    a: "The first thing you get is visibility. In week one your full connection base is mapped and ICP-scored per team member, so hidden opportunities surface immediately. Some Isla customers book meetings in their first week.",
-  },
-  {
-    topic: "Product",
-    q: "How does Isla find buyers already inside my network?",
-    a: "Isla analyzes the LinkedIn connections of every person on your team and evaluates each one individually against your ICP \u2014 who matches, who knows someone on your team, who follows you, who engages with your content or with competitors. Instead of thousands of disconnected profiles, you get a pipeline of real relationships.",
-  },
-  {
-    topic: "Product",
-    q: "How does the content get created?",
-    a: "Isla researches relevant news, topics performing well in your niche, conversations attracting your ICP, and your own product and point of view. That research is combined with short weekly interviews that capture your stories, opinions and language. The content is written, scheduled and published for you.",
-  },
-  {
-    topic: "Product",
-    q: "How do you measure whether content is working?",
-    a: "We don't report impressions. We report ICP impact: which buyers in your target set saw and engaged with each post, how often, and which topics move them. Content becomes a targeting instrument instead of a vanity metric.",
-  },
-  {
-    topic: "Product",
-    q: "How does the pipeline board work?",
-    a: "Every ICP person lives on a board with five columns: Leads, Connecting, Engaging, Hot Leads and Reach Out. Cards only move when an action actually completed, so the board records work done rather than work queued. At any moment you know who is in your network, who is warming, and who is ready to talk.",
-  },
-  {
-    topic: "Product",
-    q: "Does Isla message people automatically?",
-    a: "No. Not every prospect should get a sales message today. Isla warms relationships through comments, exposure and intros, and when someone crosses from aware to interested you get an alert in Slack with the DM already written. You approve, we send.",
-  },
-  {
-    topic: "Product",
-    q: "What do I get every week?",
-    a: "New ICP connections sourced and requested daily, researched content written and scheduled, comments and replies drafted in your voice, ICP impact reporting, hot lead alerts with the DM ready, and a weekly brief covering who is new, who is warming and who is ready \u2014 plus a dedicated operator running it all.",
-  },
-  {
-    topic: "Security & Billing",
-    q: "How does pricing work?",
-    a: "We charge per seat. Add or remove team members whenever you want \u2014 pricing scales with the number of seats. Talk to our team for a quote for your team size.",
-  },
-  {
-    topic: "Security & Billing",
-    q: "Do I need to give my LinkedIn credentials?",
-    a: "No. We use OAuth (the same secure flow as \u201cSign in with Google\u201d). Your credentials are never stored.",
-  },
-  {
-    topic: "Security & Billing",
-    q: "Can I cancel anytime?",
-    a: "Yes. No contracts, no cancellation fees. Add or remove seats as your team changes.",
-  },
-];
 
 const TOPICS: QA["topic"][] = ["General", "Product", "Security & Billing"];
 
@@ -161,6 +99,8 @@ function FAQItem({
 }
 
 export function FAQSection() {
+  const { dict } = useLocale();
+  const faqs: QA[] = dict.faq.items;
   const [activeTopic, setActiveTopic] = useState<QA["topic"]>("General");
   const [query, setQuery] = useState("");
   const [openKey, setOpenKey] = useState<string | null>(null);
@@ -176,7 +116,7 @@ export function FAQSection() {
             : true
         );
     return TOPICS.map((t) => ({ topic: t, items: filter(t) }));
-  }, [query]);
+  }, [query, faqs]);
 
   // Track which topic section is currently in view to highlight the sidebar
   useEffect(() => {
@@ -224,7 +164,7 @@ export function FAQSection() {
               className="font-display text-[40px] font-semibold leading-[1.02] text-slate-900 md:text-[52px] dark:text-white"
               style={{ letterSpacing: "-1.2px" }}
             >
-              Isla FAQs
+              {dict.faq.heading}
             </h2>
 
             {/* Search */}
@@ -234,7 +174,7 @@ export function FAQSection() {
                 type="text"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
-                placeholder="Search Agents, Pricing, Onboarding…"
+                placeholder={dict.faq.searchPlaceholder}
                 className="w-full bg-transparent text-[14px] text-slate-900 placeholder:text-slate-400 focus:outline-none dark:text-white dark:placeholder:text-white/45"
               />
             </div>
@@ -255,13 +195,13 @@ export function FAQSection() {
                   className="font-display text-[28px] font-semibold text-slate-900 md:text-[32px] dark:text-white"
                   style={{ letterSpacing: "-0.5px" }}
                 >
-                  {g.topic}
+                  {dict.faq.topics[g.topic]}
                 </h3>
 
                 <div className="mt-6 border-t border-slate-200 dark:border-[#2C2C2C]">
                   {g.items.length === 0 ? (
                     <p className="py-6 text-[14px] text-slate-500 dark:text-white/45">
-                      No questions match your search.
+                      {dict.faq.noMatch}
                     </p>
                   ) : (
                     g.items.map((qa, i) => {

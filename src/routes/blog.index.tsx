@@ -6,6 +6,7 @@ import Footer from "@/components/Footer";
 import FinalCTA from "@/components/FinalCTA";
 import SlideLabel from "@/components/ui/SlideLabel";
 import { BlogIndexSkeleton } from "@/components/BlogSkeletons";
+import { useLocale } from "@/hooks/useLocale";
 
 export const Route = createFileRoute("/blog/")({
   staleTime: 5 * 60 * 1000,
@@ -31,22 +32,25 @@ export const Route = createFileRoute("/blog/")({
     links: [{ rel: "canonical", href: "https://isla.to/blog" }],
   }),
   component: BlogIndex,
-  errorComponent: ({ error }) => (
-    <main>
-      <Navbar />
-      <section className="bg-[#05070d] pt-32 pb-24 text-center text-white">
-        <h1 className="text-2xl font-semibold">Couldn't load the blog</h1>
-        <p className="mt-2 text-sm text-white/60">{error.message}</p>
-      </section>
-      <Footer />
-    </main>
-  ),
+  errorComponent: ({ error }) => {
+    const { dict } = useLocale();
+    return (
+      <main>
+        <Navbar />
+        <section className="bg-[#05070d] pt-32 pb-24 text-center text-white">
+          <h1 className="text-2xl font-semibold">{dict.blogIndex.errorHeading}</h1>
+          <p className="mt-2 text-sm text-white/60">{error.message}</p>
+        </section>
+        <Footer />
+      </main>
+    );
+  },
 });
 
-function formatDate(iso: string | null) {
+function formatDate(iso: string | null, locale: "en" | "pt") {
   if (!iso) return "";
   try {
-    return new Date(iso).toLocaleDateString("en-US", {
+    return new Date(iso).toLocaleDateString(locale === "pt" ? "pt-BR" : "en-US", {
       year: "numeric",
       month: "long",
       day: "numeric",
@@ -58,6 +62,7 @@ function formatDate(iso: string | null) {
 
 function BlogIndex() {
   const { posts, error } = Route.useLoaderData();
+  const { dict } = useLocale();
   const visible = posts.slice(0, 9);
 
   return (
@@ -68,17 +73,16 @@ function BlogIndex() {
       <section className="relative w-full overflow-hidden bg-white dark:bg-[#0A0A0A] pt-32 pb-8 md:pt-40 md:pb-10">
         <div className="relative mx-auto max-w-4xl px-6 text-center">
           <span className="inline-block rounded-full bg-isla-cyan px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.12em] text-white">
-            Isla Blog
+            {dict.blogIndex.badge}
           </span>
           <h1
             className="mt-6 font-display text-[40px] font-light leading-[1.05] text-neutral-900 dark:text-white md:text-[60px]"
             style={{ letterSpacing: "-0.4px" }}
           >
-            The Growth Playbook for B2B Teams
+            {dict.blogIndex.heading}
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-[16px] leading-relaxed text-neutral-500 dark:text-white/45 md:text-[18px]">
-            Case studies, frameworks, and practical insights on go-to-market
-            strategy, growth, and customer acquisition.
+            {dict.blogIndex.subheading}
           </p>
         </div>
       </section>
@@ -94,7 +98,7 @@ function BlogIndex() {
 
           {visible.length === 0 ? (
             <p className="text-center text-neutral-500 dark:text-white/45">
-              No posts published yet.
+              {dict.blogIndex.noPosts}
             </p>
           ) : (
             <ul className="grid grid-cols-1 gap-x-8 gap-y-14 sm:grid-cols-2 lg:grid-cols-3">
@@ -112,7 +116,7 @@ function BlogIndex() {
                 type="button"
                 className="group inline-flex items-center gap-2 rounded-[4px] bg-isla-cyan py-1.5 pl-5 pr-1.5 text-[14px] font-bold text-white shadow-[0_8px_30px_rgba(0,191,255,0.35)] transition-transform hover:scale-[1.02]"
               >
-                Load More
+                {dict.blogIndex.loadMore}
                 <span className="flex h-8 w-8 items-center justify-center rounded-[3px] transition-transform group-hover:rotate-45">
                   <ArrowUpRight className="h-4 w-4" strokeWidth={2.5} />
                 </span>
@@ -142,6 +146,7 @@ export function BlogCard({
     cover: string | null;
   };
 }) {
+  const { dict, locale } = useLocale();
   return (
     <Link
       to="/blog/$slug"
@@ -178,7 +183,7 @@ export function BlogCard({
           </span>
           <span className="text-neutral-700">{post.author}</span>
         </div>
-        <span>{formatDate(post.date)}</span>
+        <span>{formatDate(post.date, locale)}</span>
       </div>
 
       {post.excerpt && (
@@ -188,7 +193,7 @@ export function BlogCard({
       )}
 
       <span className="mt-4 inline-flex items-center gap-1.5 text-[13px] font-medium text-neutral-900 dark:text-white transition-transform duration-200 group-hover:scale-[1.02]">
-        <SlideLabel primary="View Post" />
+        <SlideLabel primary={dict.blogIndex.viewPost} />
         <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:rotate-45" strokeWidth={2.5} />
       </span>
     </Link>

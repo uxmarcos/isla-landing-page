@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Network } from "lucide-react";
 import CardSwap, { Card } from "@/components/ui/CardSwap";
 import { DeckIcon, DraftIcon, SwipeIcon } from "@/components/idea-deck/icons";
+import { useLocale } from "@/hooks/useLocale";
 
 type Idea = {
   pillar: string;
@@ -11,74 +12,10 @@ type Idea = {
   tags: string[];
 };
 
-// Content is normalized against the "Marketing Leadership" reference card:
-// title <= 3 lines, angle <= 2 lines, so every card fits the shared size.
-const IDEAS: Idea[] = [
-  {
-    pillar: "Marketing Leadership",
-    badge: "idea",
-    title:
-      "Stop measuring your marketing team by 'leads'. Start measuring pipeline they can defend in a room full of skeptics.",
-    angle:
-      "Reframe marketing accountability from vanity metrics to revenue conversations.",
-    tags: ["#b2b", "#revops", "#marketing"],
-  },
-  {
-    pillar: "AI & GTM",
-    badge: "trending",
-    title:
-      "Compute is the new headcount. The teams winning right now aren't hiring faster — they're buying inference smarter.",
-    angle:
-      "Tie the NVIDIA capacity expansion to how B2B teams should budget for AI.",
-    tags: ["#ai", "#gtm", "#budget"],
-  },
-  {
-    pillar: "Hiring",
-    badge: "idea",
-    title:
-      "The best salespeople I've hired weren't the loudest in the room. They asked me the sharpest questions.",
-    angle:
-      "Personal hiring story turned into a counterintuitive lesson on sales talent.",
-    tags: ["#hiring", "#sales", "#leadership"],
-  },
-  {
-    pillar: "Positioning",
-    badge: "trending",
-    title:
-      "Enterprise AI just moved from 'experiment' to 'procurement'. Most GTM teams still sell to the experiment.",
-    angle:
-      "Turn the enterprise AI shift into a positioning lesson for B2B sellers.",
-    tags: ["#positioning", "#enterprise", "#b2b"],
-  },
-  {
-    pillar: "Product",
-    badge: "idea",
-    title:
-      "I killed 40% of our roadmap last quarter. Revenue went up, morale went up. Most 'must-haves' were loud-haves.",
-    angle: "Founder POV on ruthless prioritization, anchored to a real number.",
-    tags: ["#product", "#founder", "#focus"],
-  },
-];
-
-const FEATURES = [
-  {
-    Icon: DeckIcon,
-    title: "Weekly idea deck",
-    desc: "Your previous posts, competitors, references and market signals become a weekly queue of ideas.",
-  },
-  {
-    Icon: SwipeIcon,
-    title: "You choose",
-    desc: "Approve, skip or save ideas. Isla continuously learns your preferences.",
-  },
-  {
-    Icon: DraftIcon,
-    title: "Refine and publish",
-    desc: "After choosing an idea, Isla interviews you and turns it into a polished first draft.",
-  },
-];
+const FEATURE_ICONS = [DeckIcon, SwipeIcon, DraftIcon];
 
 function IdeaCard({ idea }: { idea: Idea }) {
+  const { dict } = useLocale();
   const trending = idea.badge === "trending";
   return (
     <div className="flex h-full w-full flex-col overflow-hidden rounded-3xl border border-slate-200 bg-white p-5 md:p-6 shadow-[0_22px_55px_-30px_rgba(15,23,42,0.28)] dark:border-[#2C2C2C] dark:bg-[#111111]">
@@ -93,7 +30,7 @@ function IdeaCard({ idea }: { idea: Idea }) {
               : "rounded-full border border-slate-200 px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide text-slate-400 dark:border-[#2C2C2C] dark:text-white/45"
           }
         >
-          {trending ? "🔥 Trending" : "Idea"}
+          {trending ? dict.contentSwipe.trending : dict.contentSwipe.idea}
         </span>
       </div>
 
@@ -112,7 +49,7 @@ function IdeaCard({ idea }: { idea: Idea }) {
           className="flex items-center gap-2 text-[13px] font-semibold text-isla-cyan transition-opacity hover:opacity-80"
         >
           <Network className="h-4 w-4" strokeWidth={2.25} />
-          View idea on graph
+          {dict.contentSwipe.viewOnGraph}
         </button>
         <div className="mt-3 flex flex-nowrap gap-2 overflow-hidden">
           {idea.tags.map((t) => (
@@ -158,6 +95,9 @@ function useCardSize() {
 
 export function ContentSwipeSection() {
   const { width, height, cardDistance, verticalDistance } = useCardSize();
+  const { dict } = useLocale();
+  const FEATURES = dict.contentSwipe.features.map((f, i) => ({ ...f, Icon: FEATURE_ICONS[i] }));
+  const IDEAS: Idea[] = dict.contentSwipe.ideas;
 
   return (
     <section
@@ -170,10 +110,10 @@ export function ContentSwipeSection() {
           className="font-display mx-auto max-w-3xl text-center text-[36px] font-light leading-[1.1] text-slate-900 md:text-[58px] dark:text-white"
           style={{ letterSpacing: "-1px" }}
         >
-          Give ideas to the post,
+          {dict.contentSwipe.headlineLine1}
           <br />
           <em className="font-display italic text-isla-cyan">
-            without a blank page.
+            {dict.contentSwipe.headlineLine2}
           </em>
         </h2>
 

@@ -3,17 +3,19 @@ import { ArrowUpRight } from "lucide-react";
 import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import SlideLabel from "@/components/ui/SlideLabel";
 import ThemeToggle from "@/components/ThemeToggle";
+import LanguageToggle from "@/components/LanguageToggle";
 import { useTheme } from "@/hooks/useTheme";
+import { useLocale } from "@/hooks/useLocale";
 import { useCalBooking, getStartedProps } from "@/hooks/useCalBooking";
-import islaWordmark from "@/assets/isla-wordmark.svg.asset.json";
+import islaWordmark from "@/assets/isla-wordmark.svg";
 
-const links = [
-  { label: "How it works", href: "#how-it-works" },
-  { label: "Idea Deck", href: "#conteudo" },
-  { label: "AI Interview", href: "#interview" },
-  { label: "Testimonials", href: "#testimonials" },
-  { label: "Pricing", href: "#pricing" },
-];
+const linkHrefs = [
+  { key: "howItWorks", href: "#how-it-works" },
+  { key: "ideaDeck", href: "#conteudo" },
+  { key: "aiInterview", href: "#interview" },
+  { key: "testimonials", href: "#testimonials" },
+  { key: "pricing", href: "#pricing" },
+] as const;
 
 const easeInOutCubic = (t: number) =>
   t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
@@ -57,10 +59,13 @@ const tryScrollToIdWithRetry = (id: string, attempts = 20) => {
 export function Navbar() {
   const [sectionDark, setSectionDark] = useState(true);
   const { isDark: themeDark } = useTheme();
+  const { dict } = useLocale();
   const isDark = themeDark || sectionDark;
   const navigate = useNavigate();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   useCalBooking();
+
+  const links = linkHrefs.map((l) => ({ label: dict.nav[l.key], href: l.href }));
 
   // When landing in "/" with a hash (e.g. coming from /blog), scroll to section.
   useEffect(() => {
@@ -141,7 +146,7 @@ export function Navbar() {
         {/* Logo */}
         <Link to="/" onClick={handleLogoClick} className="flex items-center">
           <img
-            src={islaWordmark.url}
+            src={islaWordmark}
             alt="Isla"
             className={`h-7 w-auto transition-all duration-500 ${isDark ? "invert" : ""}`}
             draggable={false}
@@ -164,12 +169,13 @@ export function Navbar() {
             to="/blog"
             className={`group text-[14px] font-medium transition-colors duration-500 ${mutedColor}`}
           >
-            <SlideLabel primary="Blog" />
+            <SlideLabel primary={dict.nav.blog} />
           </Link>
         </nav>
 
         {/* Right actions */}
         <div className="flex items-center gap-3">
+          <LanguageToggle />
           <ThemeToggle />
           <a
             {...getStartedProps}
@@ -177,7 +183,7 @@ export function Navbar() {
             data-cta-label="Get Started"
             className="group inline-flex cursor-pointer items-center gap-1.5 rounded-[4px] bg-isla-cyan py-1 pl-3.5 pr-1 text-[14px] font-bold text-white shadow-[0_0_20px_rgba(0,191,255,0.35)] transition-transform hover:scale-[1.02]"
           >
-            <SlideLabel primary="Get Started" secondary="Let's go" />
+            <SlideLabel primary={dict.nav.getStarted} secondary={dict.nav.letsGo} />
             <span className="flex h-7 w-7 items-center justify-center rounded-[3px] transition-transform group-hover:rotate-45">
               <ArrowUpRight className="h-4 w-4" strokeWidth={2.5} />
             </span>

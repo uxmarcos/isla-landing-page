@@ -3,8 +3,10 @@ import TestimonialsScroller from "./testimonials/TestimonialsScroller";
 import TestimonialCard from "./testimonials/TestimonialCard";
 import { TESTIMONIALS } from "./testimonials/people";
 import { motion } from "framer-motion";
+import { useLocale } from "@/hooks/useLocale";
 
 export function TestimonialsSection() {
+  const { dict } = useLocale();
   return (
     <section
       id="testimonials"
@@ -21,19 +23,19 @@ export function TestimonialsSection() {
           className="flex flex-col items-center text-center"
         >
           <div className="inline-flex items-center rounded-full bg-isla-cyan px-[18px] py-[6px] text-[12px] font-bold uppercase tracking-[0.12em] text-white shadow-[0_0_24px_rgba(0,191,255,0.35)]">
-            Testimonials
+            {dict.testimonials.badge}
           </div>
           <h2
             className="font-display mt-6 text-[44px] font-medium leading-[1.05] text-slate-900 md:text-[56px] dark:text-white"
             style={{ letterSpacing: "-0.6px" }}
           >
-            Trusted by <span className="text-isla-cyan">leaders</span>
+            {dict.testimonials.headingPre}{" "}
+            <span className="text-isla-cyan">{dict.testimonials.headingHighlight}</span>
             <br />
-            from various industries.
+            {dict.testimonials.headingPost}
           </h2>
           <p className="mt-5 max-w-xl text-[15px] leading-relaxed text-slate-500 dark:text-white/45">
-            Learn why founders, operators, and creators trust our platform to
-            move faster, ship sharper, and sleep better.
+            {dict.testimonials.subheading}
           </p>
         </motion.div>
 
@@ -50,7 +52,7 @@ export function TestimonialsSection() {
           transition={{ duration: 0.6 }}
           className="font-display mt-12 text-center text-[32px] font-medium text-slate-900 md:mt-20 md:text-[40px] dark:text-white"
         >
-          What they say about us
+          {dict.testimonials.whatTheySay}
         </motion.h3>
       </div>
 

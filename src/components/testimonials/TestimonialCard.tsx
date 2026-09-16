@@ -1,9 +1,12 @@
 import { Star } from "lucide-react";
 import type { Testimonial } from "./people";
 import { PEOPLE } from "./people";
+import { useLocale } from "@/hooks/useLocale";
 
 export function TestimonialCard({ t }: { t: Testimonial }) {
+  const { dict } = useLocale();
   const person = PEOPLE.find((p) => p.name === t.name);
+  const tag = dict.testimonials.tags[t.tag as keyof typeof dict.testimonials.tags] ?? t.tag;
 
   return (
     <div data-card className="group relative flex h-auto w-[360px] shrink-0 snap-start flex-col justify-between rounded-2xl border border-slate-200 bg-white p-6 transition-all duration-300 hover:border-isla-cyan/40 hover:shadow-[0_20px_60px_-20px_rgba(0,191,255,0.35)] md:w-[400px] dark:border-[#2C2C2C] dark:bg-[#111111] dark:shadow-none">
@@ -19,7 +22,7 @@ export function TestimonialCard({ t }: { t: Testimonial }) {
             ))}
           </div>
           <span className="rounded-full border border-isla-cyan/30 bg-isla-cyan/10 px-3 py-1 text-[11px] font-medium text-isla-cyan">
-            {t.tag}
+            {tag}
           </span>
         </div>
 

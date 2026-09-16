@@ -8,6 +8,7 @@ import Footer from "@/components/Footer";
 import FinalCTA from "@/components/FinalCTA";
 import { BlogPostSkeleton } from "@/components/BlogSkeletons";
 import { supabase } from "@/integrations/supabase/client";
+import { useLocale } from "@/hooks/useLocale";
 
 export const Route = createFileRoute("/blog/$slug")({
   staleTime: 5 * 60 * 1000,
@@ -71,37 +72,43 @@ export const Route = createFileRoute("/blog/$slug")({
     };
   },
   component: BlogPostPage,
-  errorComponent: ({ error }) => (
-    <main>
-      <Navbar />
-      <section className="bg-[#05070d] pt-32 pb-24 text-center text-white">
-        <h1 className="text-2xl font-semibold">Couldn't load post</h1>
-        <p className="mt-2 text-sm text-white/60">{error.message}</p>
-        <Link to="/blog" className="mt-6 inline-block text-isla-cyan underline">
-          Back to blog
-        </Link>
-      </section>
-      <Footer />
-    </main>
-  ),
-  notFoundComponent: () => (
-    <main>
-      <Navbar />
-      <section className="bg-[#05070d] pt-32 pb-24 text-center text-white">
-        <h1 className="text-2xl font-semibold">Post not found</h1>
-        <Link to="/blog" className="mt-6 inline-block text-isla-cyan underline">
-          Back to blog
-        </Link>
-      </section>
-      <Footer />
-    </main>
-  ),
+  errorComponent: ({ error }) => {
+    const { dict } = useLocale();
+    return (
+      <main>
+        <Navbar />
+        <section className="bg-[#05070d] pt-32 pb-24 text-center text-white">
+          <h1 className="text-2xl font-semibold">{dict.blogPost.errorHeading}</h1>
+          <p className="mt-2 text-sm text-white/60">{error.message}</p>
+          <Link to="/blog" className="mt-6 inline-block text-isla-cyan underline">
+            {dict.blogPost.backToBlog}
+          </Link>
+        </section>
+        <Footer />
+      </main>
+    );
+  },
+  notFoundComponent: () => {
+    const { dict } = useLocale();
+    return (
+      <main>
+        <Navbar />
+        <section className="bg-[#05070d] pt-32 pb-24 text-center text-white">
+          <h1 className="text-2xl font-semibold">{dict.blogPost.notFoundHeading}</h1>
+          <Link to="/blog" className="mt-6 inline-block text-isla-cyan underline">
+            {dict.blogPost.backToBlog}
+          </Link>
+        </section>
+        <Footer />
+      </main>
+    );
+  },
 });
 
-function formatDate(iso: string | null) {
+function formatDate(iso: string | null, locale: "en" | "pt") {
   if (!iso) return "";
   try {
-    return new Date(iso).toLocaleDateString("en-US", {
+    return new Date(iso).toLocaleDateString(locale === "pt" ? "pt-BR" : "en-US", {
       year: "numeric",
       month: "long",
       day: "numeric",
@@ -121,6 +128,7 @@ const SOCIALS = [
 
 function BlogPostPage() {
   const { post, related } = Route.useLoaderData();
+  const { dict, locale } = useLocale();
   if (!post) return null;
 
   return (
@@ -152,9 +160,9 @@ function BlogPostPage() {
       <section className="bg-white dark:bg-[#0A0A0A]">
         <div className="mx-auto max-w-6xl px-6 pt-8">
           <nav aria-label="Breadcrumb" className="flex items-center gap-1.5 text-sm text-neutral-500 dark:text-white/45">
-            <Link to="/" className="hover:text-isla-cyan">Home</Link>
+            <Link to="/" className="hover:text-isla-cyan">{dict.blogPost.home}</Link>
             <ChevronRight className="h-3.5 w-3.5" />
-            <Link to="/blog" className="hover:text-isla-cyan">Blog</Link>
+            <Link to="/blog" className="hover:text-isla-cyan">{dict.blogPost.blog}</Link>
             <ChevronRight className="h-3.5 w-3.5" />
             <span className="truncate text-neutral-700">{post.title}</span>
           </nav>
@@ -177,7 +185,7 @@ function BlogPostPage() {
                   </span>
                   <span className="text-neutral-700">{post.author}</span>
                 </div>
-                <span>{formatDate(post.date)}</span>
+                <span>{formatDate(post.date, locale)}</span>
               </div>
             </header>
 
@@ -208,7 +216,7 @@ function BlogPostPage() {
         <section className="bg-white dark:bg-[#0A0A0A] pb-24">
           <div className="mx-auto max-w-6xl px-6">
             <h2 className="text-center text-2xl font-semibold text-neutral-900 dark:text-white">
-              You may also like
+              {dict.blogPost.youMayAlsoLike}
             </h2>
             <ul className="mt-10 grid grid-cols-1 gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
               {related.map((p: (typeof related)[number]) => (
@@ -222,7 +230,7 @@ function BlogPostPage() {
                 to="/blog"
                 className="text-sm font-medium text-neutral-900 dark:text-white underline underline-offset-4 hover:text-isla-cyan"
               >
-                View All
+                {dict.blogPost.viewAll}
               </Link>
             </div>
           </div>
@@ -236,6 +244,7 @@ function BlogPostPage() {
 }
 
 function NewsletterCard() {
+  const { dict } = useLocale();
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [errorMsg, setErrorMsg] = useState("");
@@ -268,11 +277,10 @@ function NewsletterCard() {
             <CheckCircle2 className="h-6 w-6 text-isla-cyan" />
           </div>
           <h3 className="mt-4 text-sm font-semibold text-neutral-900 dark:text-white">
-            You're subscribed!
+            {dict.blogPost.subscribedHeading}
           </h3>
           <p className="mt-1 text-xs leading-relaxed text-neutral-500 dark:text-white/45">
-            Thanks for joining our newsletter. Keep an eye on your inbox for
-            our next selection of articles.
+            {dict.blogPost.subscribedBody}
           </p>
         </div>
       </div>
@@ -281,10 +289,9 @@ function NewsletterCard() {
 
   return (
     <div className="rounded-lg border border-neutral-200 dark:border-[#2C2C2C] p-6">
-      <h3 className="text-sm font-semibold text-neutral-900 dark:text-white">Subscription</h3>
+      <h3 className="text-sm font-semibold text-neutral-900 dark:text-white">{dict.blogPost.subscriptionHeading}</h3>
       <p className="mt-1 text-xs leading-relaxed text-neutral-500 dark:text-white/45">
-        Subscribe to our newsletter and receive a selection of cool articles
-        every week.
+        {dict.blogPost.subscriptionBody}
       </p>
       <form className="mt-4 flex flex-col gap-3" onSubmit={handleSubmit}>
         <input
@@ -293,7 +300,7 @@ function NewsletterCard() {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           disabled={status === "loading"}
-          placeholder="Enter your email"
+          placeholder={dict.blogPost.emailPlaceholder}
           className="rounded-md border border-neutral-200 dark:border-[#2C2C2C] bg-white dark:bg-[#0A0A0A] px-3 py-2 text-sm text-neutral-900 dark:text-white outline-none placeholder:text-neutral-400 focus:border-isla-cyan disabled:opacity-60"
         />
         <button
@@ -301,10 +308,10 @@ function NewsletterCard() {
           disabled={status === "loading"}
           className="rounded-md bg-isla-cyan py-2 text-sm font-semibold text-white shadow-[0_6px_20px_rgba(0,191,255,0.3)] transition-transform hover:scale-[1.01] disabled:opacity-60"
         >
-          {status === "loading" ? "Subscribing..." : "Subscribe"}
+          {status === "loading" ? dict.blogPost.subscribing : dict.blogPost.subscribe}
         </button>
         {status === "error" && (
-          <p className="text-[11px] text-red-600">{errorMsg || "Something went wrong. Please try again."}</p>
+          <p className="text-[11px] text-red-600">{errorMsg || dict.blogPost.subscribeError}</p>
         )}
       </form>
     </div>

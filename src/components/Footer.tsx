@@ -8,6 +8,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { useLocale } from "@/hooks/useLocale";
 import eduardoImg from "@/assets/contacts/eduardo.png";
 import marcosImg from "@/assets/contacts/marcos.png";
 
@@ -29,6 +30,7 @@ const CONTACTS = [
 ];
 
 export function Footer() {
+  const { dict } = useLocale();
   const [open, setOpen] = useState(false);
   const [copiedEmail, setCopiedEmail] = useState<string | null>(null);
 
@@ -72,7 +74,7 @@ export function Footer() {
 
         {/* Copyright */}
         <p className="text-center text-[13px] text-white/50">
-          Copyright © 2025 Isla is part of Tailbox, Inc. All rights reserved.
+          {dict.footer.copyright}
         </p>
 
         {/* Right cluster */}
@@ -106,7 +108,7 @@ export function Footer() {
                   duration-200"
               >
                 <DialogHeader>
-                  <DialogTitle className="text-white">Get in touch</DialogTitle>
+                  <DialogTitle className="text-white">{dict.footer.getInTouch}</DialogTitle>
                 </DialogHeader>
                 <div className="mt-2 flex flex-col gap-3">
                   {CONTACTS.map((c) => (
@@ -151,7 +153,7 @@ export function Footer() {
                             <>
                               <Check className="h-4 w-4" />
                               <span className="text-[12px] font-medium">
-                                Copied
+                                {dict.footer.copied}
                               </span>
                             </>
                           ) : (

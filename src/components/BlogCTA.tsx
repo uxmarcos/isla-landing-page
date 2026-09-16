@@ -1,10 +1,12 @@
 import { Link } from "@tanstack/react-router";
 import { ArrowUpRight } from "lucide-react";
 import SlideLabel from "@/components/ui/SlideLabel";
-import blogCards from "@/assets/blog-cards.png.asset.json";
-import blogCardsDark from "@/assets/blog-cards-dark.png.asset.json";
+import { useLocale } from "@/hooks/useLocale";
+import blogCards from "@/assets/blog-cards.png";
+import blogCardsDark from "@/assets/blog-cards-dark.png";
 
 export function BlogCTA() {
+  const { dict } = useLocale();
   return (
     <section
       data-nav-theme="light"
@@ -16,19 +18,18 @@ export function BlogCTA() {
             {/* Left: text */}
             <div>
               <span className="inline-block rounded-full bg-isla-cyan px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.18em] text-white">
-                Blog
+                {dict.blogCTA.badge}
               </span>
 
               <h2
                 className="font-display mt-6 text-[36px] font-light leading-[1.05] text-neutral-900 md:text-[48px] dark:text-white"
                 style={{ letterSpacing: "-0.4px" }}
               >
-                Growth playbook for B2B teams
+                {dict.blogCTA.heading}
               </h2>
 
               <p className="mt-5 max-w-md text-[15px] leading-relaxed text-neutral-500 md:text-[16px] dark:text-white/45">
-                Case studies, frameworks and practical insights on GTM, growth
-                and winning clients on LinkedIn.
+                {dict.blogCTA.description}
               </p>
 
               <div className="mt-8">
@@ -36,7 +37,7 @@ export function BlogCTA() {
                   to="/blog"
                   className="group inline-flex items-center gap-1.5 rounded-[4px] bg-isla-cyan py-1 pl-3.5 pr-1 text-[14px] font-bold text-white shadow-[0_0_20px_rgba(0,191,255,0.35)] transition-transform hover:scale-[1.02]"
                 >
-                  <SlideLabel primary="Read the blog" secondary="See articles" />
+                  <SlideLabel primary={dict.blogCTA.readBlog} secondary={dict.blogCTA.seeArticles} />
                   <span className="flex h-7 w-7 items-center justify-center rounded-[3px] transition-transform group-hover:rotate-45">
                     <ArrowUpRight className="h-4 w-4" strokeWidth={2.5} />
                   </span>
@@ -47,12 +48,12 @@ export function BlogCTA() {
             {/* Right: image */}
             <div className="relative flex items-center justify-center">
               <img
-                src={blogCards.url}
+                src={blogCards}
                 alt="Featured blog articles preview"
                 className="w-full max-w-[560px] h-auto dark:hidden"
               />
               <img
-                src={blogCardsDark.url}
+                src={blogCardsDark}
                 alt="Featured blog articles preview"
                 className="hidden w-full max-w-[560px] h-auto dark:block"
               />

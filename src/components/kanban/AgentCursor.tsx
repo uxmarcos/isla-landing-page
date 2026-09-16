@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { motion, useMotionValue } from "framer-motion";
-import agentCursor from "@/assets/isla_agent.svg.asset.json";
+import agentCursor from "@/assets/isla_agent.svg";
 
 export type CursorPhase = "idle" | "approach" | "grab" | "drag" | "release";
 
@@ -102,7 +102,7 @@ export function AgentCursor({
         scale: { duration: 0.45, ease: [0.22, 1, 0.36, 1] },
       }}
     >
-      <img src={agentCursor.url} alt="" width={148} height={33} draggable={false} />
+      <img src={agentCursor} alt="" width={148} height={33} draggable={false} />
     </motion.div>
   );
 }

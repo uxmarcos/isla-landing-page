@@ -1,4 +1,5 @@
 import { Star } from "lucide-react";
+import { useLocale } from "@/hooks/useLocale";
 import logoYC from "@/assets/investors/yc.svg";
 import logoA16Z from "@/assets/investors/a16z.svg";
 import logoLatitud from "@/assets/investors/latitud.svg";
@@ -14,6 +15,7 @@ const investorLogos: { name: string; src: string; height: number }[] = [
 ];
 
 export function TrustedBy() {
+  const { dict } = useLocale();
   const base = [...investorLogos, ...investorLogos];
   const loop = [...base, ...base];
   return (
@@ -25,7 +27,7 @@ export function TrustedBy() {
         {/* Row 1 — label + rating */}
         <div className="flex w-full flex-col items-start gap-4 sm:flex-row sm:items-center sm:justify-between">
           <span className="text-[12px] font-bold uppercase tracking-[0.2em] text-slate-900 dark:text-white">
-            Trusted by founders from
+            {dict.trustedBy.label}
           </span>
           <div className="hidden items-center gap-3 sm:flex">
             <div className="flex gap-0.5">
@@ -37,7 +39,7 @@ export function TrustedBy() {
               ))}
             </div>
             <p className="text-[14px] italic text-slate-700 dark:text-white/70">
-              "Finally, a tool that tells me what to do."
+              {dict.trustedBy.quote}
             </p>
           </div>
         </div>

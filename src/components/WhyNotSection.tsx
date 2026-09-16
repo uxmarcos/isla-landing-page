@@ -1,61 +1,14 @@
 import { motion } from "framer-motion";
-import islaWordmark from "@/assets/isla-wordmark.svg.asset.json";
+import { useLocale } from "@/hooks/useLocale";
+import islaWordmark from "@/assets/isla-wordmark.svg";
 
-type Column = {
-  key: string;
-  label: string;
-  cost: string;
-  missing: string;
-  highlight?: boolean;
-};
-
-const COLUMNS: Column[] = [
-  {
-    key: "isla",
-    label: "Isla",
-    cost: "$70/mo per account",
-    missing:
-      "Network growth, warming, content and measurement as one loop, run for you.",
-    highlight: true,
-  },
-  {
-    key: "agency",
-    label: "Content agency",
-    cost: "$2,000–5,000/mo",
-    missing:
-      "Posts, and nothing downstream. No network growth, no measurement, no follow-up.",
-  },
-  {
-    key: "sdr",
-    label: "SDR + outbound stack",
-    cost: "$6,000+/mo loaded",
-    missing:
-      "Messages strangers. Ignores the warm buyers already in your network.",
-  },
-  {
-    key: "tool",
-    label: "A LinkedIn tool",
-    cost: "$100–500/mo",
-    missing:
-      "A dashboard someone has to remember to open. No content, no research, no operator.",
-  },
-  {
-    key: "internal",
-    label: "Internally",
-    cost: '"Free"',
-    missing: "Works for five weeks.",
-  },
-];
-
-const ROWS = [
-  { key: "cost" as const, label: "Cost" },
-  { key: "missing" as const, label: "What's missing" },
-];
+const COLUMN_KEYS = ["isla", "agency", "sdr", "tool", "internal"];
+const HIGHLIGHT_KEY = "isla";
 
 function IslaMark() {
   return (
     <img
-      src={islaWordmark.url}
+      src={islaWordmark}
       alt="Isla"
       draggable={false}
       className="h-6 w-auto brightness-0 invert"
@@ -64,6 +17,17 @@ function IslaMark() {
 }
 
 export function WhyNotSection() {
+  const { dict } = useLocale();
+  const COLUMNS = dict.whyNot.columns.map((c, i) => ({
+    ...c,
+    key: COLUMN_KEYS[i],
+    highlight: COLUMN_KEYS[i] === HIGHLIGHT_KEY,
+  }));
+  const ROWS = [
+    { key: "cost" as const, label: dict.whyNot.rows.cost },
+    { key: "missing" as const, label: dict.whyNot.rows.missing },
+  ];
+
   return (
     <section
       id="compare"
@@ -97,7 +61,7 @@ export function WhyNotSection() {
           className="font-display mx-auto flex w-full max-w-[908px] flex-col items-start gap-[10px] whitespace-normal border border-[#D3D3D3] bg-white px-6 py-4 text-[34px] font-light leading-[1.12] text-slate-900 md:whitespace-nowrap md:text-[clamp(20px,4.2vw,52px)] dark:border-[#2C2C2C] dark:bg-[#111111] dark:text-white"
           style={{ letterSpacing: "-0.4px" }}
         >
-          Why not an agency, an SDR, or a tool
+          {dict.whyNot.heading}
         </motion.h2>
 
         <motion.div

@@ -1,84 +1,18 @@
 import NetworkBeamSection from "@/components/NetworkBeamSection";
-import step1 from "@/assets/how/step-1.png.asset.json";
-import step2 from "@/assets/how/step-2.png.asset.json";
-import step3 from "@/assets/how/step-3.png.asset.json";
-import step4 from "@/assets/how/step-4.png.asset.json";
-import step5 from "@/assets/how/step-5.png.asset.json";
-import step6 from "@/assets/how/step-6.png.asset.json";
+import { useLocale } from "@/hooks/useLocale";
+import step1 from "@/assets/how/step-1.png";
+import step2 from "@/assets/how/step-2.png";
+import step3 from "@/assets/how/step-3.png";
+import step4 from "@/assets/how/step-4.png";
+import step5 from "@/assets/how/step-5.png";
+import step6 from "@/assets/how/step-6.png";
 
 const stepMedia = [step1, step2, step3, step4, step5, step6];
 
 /* ────────────────────────────────────────────────────────────
  * How it works — simple, normal scroll, media placeholders
  * ────────────────────────────────────────────────────────── */
-type Step = {
-  num: string;
-  title: string;
-  body: React.ReactNode;
-};
-
-const steps: Step[] = [
-  {
-    num: "01",
-    title: "Reveal the pipeline already inside your network",
-    body: (
-      <p>
-        Isla scores every LinkedIn connection your team has against your ICP —
-        turning scattered profiles into a real pipeline.
-      </p>
-    ),
-  },
-  {
-    num: "02",
-    title: "Create content designed for your ICP",
-    body: (
-      <p>
-        Isla researches your niche, market news and winning topics, then pairs
-        it with short interviews to capture your voice.
-      </p>
-    ),
-  },
-  {
-    num: "03",
-    title: "Publish and measure ICP impact",
-    body: (
-      <p>
-        See exactly which buyers saw and engaged with your content. Content
-        becomes a targeting instrument, not a vanity metric.
-      </p>
-    ),
-  },
-  {
-    num: "04",
-    title: "Expand your ICP network every day. Grow your account",
-    body: (
-      <p>
-        Every day Isla brings new ICP-matching prospects into your network — so
-        you build distribution made of future customers, not followers.
-      </p>
-    ),
-  },
-  {
-    num: "05",
-    title: "Warm the people already inside it",
-    body: (
-      <p>
-        Comments, repeated exposure and the right intros build familiarity
-        first. Isla only recommends outreach once the signals are there.
-      </p>
-    ),
-  },
-  {
-    num: "06",
-    title: "Know when it is time to talk",
-    body: (
-      <p>
-        The moment a lead turns from aware to interested, you get an alert. You
-        approve, we send.
-      </p>
-    ),
-  },
-];
+const stepNumbers = ["01", "02", "03", "04", "05", "06"];
 
 function MediaPlaceholder({ index, alt }: { index: number; alt: string }) {
   const media = stepMedia[index];
@@ -96,7 +30,7 @@ function MediaPlaceholder({ index, alt }: { index: number; alt: string }) {
   }
   return (
     <img
-      src={media.url}
+      src={media}
       alt={alt}
       loading="lazy"
       className="aspect-[4/3] w-full rounded-2xl object-cover"
@@ -105,6 +39,9 @@ function MediaPlaceholder({ index, alt }: { index: number; alt: string }) {
 }
 
 function HowItWorks() {
+  const { dict } = useLocale();
+  const steps = dict.howItWorks.steps.map((s, i) => ({ ...s, num: stepNumbers[i] }));
+
   return (
     <section
       id="how-it-works"
@@ -115,7 +52,7 @@ function HowItWorks() {
       <div className="mx-auto max-w-6xl px-6">
         <div className="text-center">
           <h2 className="font-display mx-auto max-w-3xl text-[34px] font-normal leading-[1.08] tracking-[-0.03em] text-slate-900 md:text-[50px] dark:text-white">
-            How it works
+            {dict.howItWorks.heading}
           </h2>
         </div>
 
@@ -138,7 +75,7 @@ function HowItWorks() {
                     {s.title}
                   </h3>
                   <div className="mt-5 max-w-md space-y-4 text-[15px] leading-relaxed text-slate-600 md:text-[16px] dark:text-white/65">
-                    {s.body}
+                    <p>{s.body}</p>
                   </div>
                 </div>
                 <MediaPlaceholder index={i} alt={s.title} />

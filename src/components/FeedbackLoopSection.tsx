@@ -6,6 +6,8 @@ import {
   AnimatePresence,
 } from "framer-motion";
 import { Check, ArrowUp, ArrowDown, TrendingUp, ChevronRight } from "lucide-react";
+import { useLocale } from "@/hooks/useLocale";
+import type { Translations } from "@/i18n/translations";
 import lead1 from "@/assets/kanban/lead-1.jpg";
 import lead2 from "@/assets/kanban/lead-2.jpg";
 import lead3 from "@/assets/kanban/lead-3.jpg";
@@ -62,14 +64,16 @@ function Card({
 
 /* ── 1 · Research ─────────────────────────────────────────── */
 
-const researchItems = [
-  "Competitor post analyzed",
-  "Industry trend detected",
-  "Customer interview parsed",
-  "Product announcement indexed",
-];
-
-function ResearchDemo({ active, reduced }: { active: boolean; reduced: boolean | null }) {
+function ResearchDemo({
+  active,
+  reduced,
+  dict,
+}: {
+  active: boolean;
+  reduced: boolean | null;
+  dict: Translations["feedbackLoop"];
+}) {
+  const researchItems = dict.researchItems;
   const [done, setDone] = useState(reduced ? researchItems.length : 0);
   const [insights, setInsights] = useState(24);
   const [bump, setBump] = useState(false);
@@ -95,14 +99,14 @@ function ResearchDemo({ active, reduced }: { active: boolean; reduced: boolean |
     <div>
       <div className="flex items-center justify-between border-t border-slate-200/80 pt-4 dark:border-[#2C2C2C]">
         <span className="text-[13.5px] text-slate-600 dark:text-white/65">
-          New research this week
+          {dict.newResearch}
         </span>
         <motion.span
           animate={bump ? { scale: [1, 1.12, 1] } : { scale: 1 }}
           transition={{ duration: 0.45 }}
           className="text-[13.5px] font-bold text-isla-cyan"
         >
-          +{insights} insights
+          +{insights} {dict.insightsSuffix}
         </motion.span>
       </div>
 
@@ -150,7 +154,7 @@ function ResearchDemo({ active, reduced }: { active: boolean; reduced: boolean |
             transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }}
             className="text-[13.5px] text-slate-600 dark:text-white/65"
           >
-            Scanning ICP conversations…
+            {dict.scanning}
           </motion.span>
         </li>
       </ul>
@@ -160,9 +164,15 @@ function ResearchDemo({ active, reduced }: { active: boolean; reduced: boolean |
 
 /* ── 2 · Content ──────────────────────────────────────────── */
 
-const contentSteps = ["Research", "Idea", "Interview", "Draft", "Scheduled"];
-
-function ContentDemo({ active, reduced }: { active: boolean; reduced: boolean | null }) {
+function ContentDemo({
+  active,
+  reduced,
+  contentSteps,
+}: {
+  active: boolean;
+  reduced: boolean | null;
+  contentSteps: string[];
+}) {
   const [step] = useCycle(contentSteps.length, 2200, active && !reduced);
   const pct = (step / (contentSteps.length - 1)) * 100;
 
@@ -224,10 +234,10 @@ function ContentDemo({ active, reduced }: { active: boolean; reduced: boolean | 
 
 /* ── 3 · Buying signals ───────────────────────────────────── */
 
-const kpis = [
-  { label: "Profile Views", base: 482, delta: "+14%" },
-  { label: "Post Engagement", base: 2410, delta: "+28%" },
-  { label: "Inbound Leads", base: 12, delta: "+3%" },
+const kpiValues = [
+  { base: 482, delta: "+14%" },
+  { base: 2410, delta: "+28%" },
+  { base: 12, delta: "+3%" },
 ];
 
 function useCountUp(target: number, run: boolean, reduced: boolean | null) {
@@ -254,11 +264,13 @@ function KpiRow({
   run,
   reduced,
   delay,
+  numberLocale,
 }: {
-  kpi: (typeof kpis)[number];
+  kpi: { label: string; base: number; delta: string };
   run: boolean;
   reduced: boolean | null;
   delay: number;
+  numberLocale: string;
 }) {
   const [target, setTarget] = useState(kpi.base);
   const value = useCountUp(target, run, reduced);
@@ -279,7 +291,7 @@ function KpiRow({
           {kpi.label}
         </p>
         <p className="font-display mt-1 text-[22px] font-semibold leading-none text-slate-900 tabular-nums dark:text-white">
-          {value.toLocaleString("en-US")}
+          {value.toLocaleString(numberLocale)}
         </p>
       </div>
       <motion.span
@@ -301,7 +313,17 @@ const leadsBase = [
   { img: lead3, name: "John Smith", role: "CTO · Tech" },
 ];
 
-function PriorityDemo({ active, reduced }: { active: boolean; reduced: boolean | null }) {
+function PriorityDemo({
+  active,
+  reduced,
+  upLabel,
+  downLabel,
+}: {
+  active: boolean;
+  reduced: boolean | null;
+  upLabel: string;
+  downLabel: string;
+}) {
   const [order, setOrder] = useState([0, 1, 2]);
   const [moved, setMoved] = useState(1);
 
@@ -354,7 +376,7 @@ function PriorityDemo({ active, reduced }: { active: boolean; reduced: boolean |
               }`}
             >
               {up ? <ArrowUp className="size-3.5" /> : <ArrowDown className="size-3.5" />}
-              {up ? "UP" : "DOWN"}
+              {up ? upLabel : downLabel}
             </span>
           </motion.li>
         );
@@ -365,15 +387,17 @@ function PriorityDemo({ active, reduced }: { active: boolean; reduced: boolean |
 
 /* ── 5 · Learning loop ────────────────────────────────────── */
 
-const timeline = [
-  { t: "Post Published", w: "Monday, 9:00 AM" },
-  { t: "Prospect Commented", w: "Monday, 11:30 AM" },
-  { t: "Profile Visit Logged", w: "Tuesday, 2:15 PM" },
-  { t: "Message Started", w: "Wednesday, 10:00 AM" },
-  { t: "Meeting Booked", w: "Thursday, 4:00 PM" },
-];
-
-function LearningDemo({ active, reduced }: { active: boolean; reduced: boolean | null }) {
+function LearningDemo({
+  active,
+  reduced,
+  timeline,
+  confidenceLabel,
+}: {
+  active: boolean;
+  reduced: boolean | null;
+  timeline: { t: string; w: string }[];
+  confidenceLabel: string;
+}) {
   const [done, setDone] = useState(reduced ? timeline.length : 0);
 
   useEffect(() => {
@@ -427,7 +451,7 @@ function LearningDemo({ active, reduced }: { active: boolean; reduced: boolean |
 
       <div className="mt-6 flex items-center justify-between rounded-xl bg-slate-100/70 px-4 py-3.5 dark:bg-[#1A1A1A]">
         <span className="text-[13.5px] font-semibold text-slate-700 dark:text-white/65">
-          Isla Confidence Score
+          {confidenceLabel}
         </span>
         <span className="inline-flex items-center gap-1.5 text-[13.5px] font-bold text-isla-cyan tabular-nums">
           81% → {score}%
@@ -440,16 +464,15 @@ function LearningDemo({ active, reduced }: { active: boolean; reduced: boolean |
 
 /* ── 6 · Compounding ──────────────────────────────────────── */
 
-const tags = [
-  "Research",
-  "Content",
-  "Signals",
-  "Prioritize",
-  "Daily Actions",
-  "Conversations",
-];
-
-function CompoundingDemo({ active, reduced }: { active: boolean; reduced: boolean | null }) {
+function CompoundingDemo({
+  active,
+  reduced,
+  tags,
+}: {
+  active: boolean;
+  reduced: boolean | null;
+  tags: string[];
+}) {
   const [i] = useCycle(tags.length, 2000, active && !reduced);
   return (
     <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-3">
@@ -482,55 +505,56 @@ export function FeedbackLoopSection() {
   if (inView) seen.current = true;
   const reduced = useReducedMotion();
   const enter = seen.current;
+  const { dict, locale } = useLocale();
+  const fl = dict.feedbackLoop;
+  const numberLocale = locale === "pt" ? "pt-BR" : "en-US";
 
   const cards = [
     {
-      label: "Research",
-      title: "Every week starts with better context.",
-      description:
-        "Isla continuously analyzes your market, competitors, industry news and customer conversations to identify what your ICP is paying attention to right now.",
-      demo: <ResearchDemo active={inView} reduced={reduced} />,
+      ...fl.cards[0],
+      demo: <ResearchDemo active={inView} reduced={reduced} dict={fl} />,
     },
     {
-      label: "Content",
-      title: "Research becomes content.",
-      description:
-        "Instead of starting from a blank page, Isla turns research into content ideas, interviews you, and drafts posts designed to attract your ICP.",
-      demo: <ContentDemo active={inView} reduced={reduced} />,
+      ...fl.cards[1],
+      demo: <ContentDemo active={inView} reduced={reduced} contentSteps={fl.contentSteps} />,
     },
     {
-      label: "Buying Signals",
-      title: "Every interaction becomes intelligence.",
-      description:
-        "Views, likes, comments, profile visits and repeated engagement all become signals that help Isla understand which relationships are getting warmer.",
+      ...fl.cards[2],
       demo: (
         <div className="space-y-2.5">
-          {kpis.map((k, i) => (
-            <KpiRow key={k.label} kpi={k} run={inView} reduced={reduced} delay={i * 0.4} />
+          {fl.kpis.map((k, i) => (
+            <KpiRow
+              key={k.label}
+              kpi={{ ...k, ...kpiValues[i] }}
+              run={inView}
+              reduced={reduced}
+              delay={i * 0.4}
+              numberLocale={numberLocale}
+            />
           ))}
         </div>
       ),
     },
     {
-      label: "Prioritization",
-      title: "The right people rise to the top.",
-      description:
-        "As new signals arrive, Isla automatically reprioritizes your pipeline so your team always knows who deserves attention next.",
-      demo: <PriorityDemo active={inView} reduced={reduced} />,
+      ...fl.cards[3],
+      demo: (
+        <PriorityDemo active={inView} reduced={reduced} upLabel={fl.up} downLabel={fl.down} />
+      ),
     },
     {
-      label: "Learning Loop",
-      title: "Every conversation makes Isla smarter.",
-      description:
-        "Successful conversations teach Isla which topics, signals and actions create meetings, making future recommendations more accurate.",
-      demo: <LearningDemo active={inView} reduced={reduced} />,
+      ...fl.cards[4],
+      demo: (
+        <LearningDemo
+          active={inView}
+          reduced={reduced}
+          timeline={fl.timeline}
+          confidenceLabel={fl.confidenceScore}
+        />
+      ),
     },
     {
-      label: "Compounding",
-      title: "Small actions compound into pipeline.",
-      description:
-        "Research improves content, content creates signals, signals prioritize relationships. Every week the loop repeats, making your network — and your pipeline — more valuable.",
-      demo: <CompoundingDemo active={inView} reduced={reduced} />,
+      ...fl.cards[5],
+      demo: <CompoundingDemo active={inView} reduced={reduced} tags={fl.tags} />,
     },
   ];
 
@@ -548,13 +572,11 @@ export function FeedbackLoopSection() {
           className="mx-auto max-w-[650px] text-center"
         >
           <h2 className="font-display text-[34px] font-normal leading-[1.08] tracking-[-0.03em] text-slate-900 md:text-[50px] dark:text-white">
-            The system gets better{" "}
-            <span className="italic text-isla-cyan">every week.</span>
+            {fl.heading}{" "}
+            <span className="italic text-isla-cyan">{fl.headingHighlight}</span>
           </h2>
           <p className="mx-auto mt-6 text-[15px] leading-relaxed text-slate-500 md:text-[16px] dark:text-white/65">
-            Every interaction creates context. Every conversation improves future
-            decisions. Every new signal helps Isla understand what leads to meetings,
-            creating a system that continuously improves itself.
+            {fl.subheadline}
           </p>
         </motion.div>
 

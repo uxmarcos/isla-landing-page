@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useLocale } from "@/hooks/useLocale";
 import avLarissa from "@/assets/leads/larissa.jpg";
 import avChris from "@/assets/leads/chris.jpg";
 import avEduardo from "@/assets/leads/eduardo.jpg";
@@ -49,11 +50,7 @@ function IslaMark() {
 }
 
 /* ── Data ─────────────────────────────────────────────────── */
-const sources = [
-  { Icon: LinkedInIcon, title: "Your posts", desc: "People engaging with your content" },
-  { Icon: TargetIcon, title: "Competitor", desc: "People engaging with competitors' posts" },
-  { Icon: RadarIcon, title: "Your niche", desc: "People within your area of expertise" },
-];
+const sourceIcons = [LinkedInIcon, TargetIcon, RadarIcon];
 
 type Lead = { name: string; role: string; company: string; score: number; avatar: string };
 
@@ -76,6 +73,7 @@ const leadPool: Lead[][] = [
 ];
 
 function LeadCard({ lead, phase }: { lead: Lead; phase: number }) {
+  const { dict } = useLocale();
   return (
     <div
       key={phase}
@@ -103,7 +101,7 @@ function LeadCard({ lead, phase }: { lead: Lead; phase: number }) {
       </div>
       <div className="hidden flex-col items-end sm:flex">
         <span className="text-[10px] font-medium uppercase tracking-[0.08em] text-slate-400 dark:text-white/45">
-          Score
+          {dict.networkBeam.scoreLabel}
         </span>
         <span className="text-[15px] font-semibold text-isla-cyan">{lead.score}</span>
       </div>
@@ -114,6 +112,8 @@ function LeadCard({ lead, phase }: { lead: Lead; phase: number }) {
 type Pt = { x: number; y: number };
 
 export function NetworkBeamSection() {
+  const { dict } = useLocale();
+  const sources = dict.networkBeam.sources.map((s, i) => ({ ...s, Icon: sourceIcons[i] }));
   const containerRef = useRef<HTMLDivElement>(null);
   const hubRef = useRef<HTMLDivElement>(null);
   const srcRefs = useRef<(HTMLDivElement | null)[]>([]);
@@ -240,9 +240,9 @@ export function NetworkBeamSection() {
 
       <div className="mx-auto max-w-[1120px] px-4 md:px-6">
         <h2 className="font-display mx-auto max-w-3xl text-center text-[38px] font-light leading-[1.12] tracking-[-0.4px] text-black md:text-[56px] dark:text-white">
-          Your next client is already{" "}
+          {dict.networkBeam.headlinePre}{" "}
           <span className="font-normal italic tracking-[-2.4px] text-isla-cyan">
-            in your network.
+            {dict.networkBeam.headlineHighlight}
           </span>
         </h2>
 
@@ -318,7 +318,7 @@ export function NetworkBeamSection() {
                 </span>
                 <div className="min-w-0 w-full">
                   <div className="text-[8.5px] font-medium uppercase tracking-[0.1em] text-slate-400 md:text-[10px] dark:text-white/45">
-                    Source
+                    {dict.networkBeam.sourceLabel}
                   </div>
                   <div className="truncate text-[11px] font-semibold leading-snug text-slate-900 md:text-[14px] dark:text-white">
                     {s.title}
@@ -359,8 +359,7 @@ export function NetworkBeamSection() {
         </div>
 
         <p className="mx-auto mt-14 max-w-[720px] text-center text-[14.5px] leading-relaxed text-slate-500 md:text-[15.5px] dark:text-white/65">
-          Isla captures signals from three sources, filters them through its ICP, and returns
-          profiles ready to start the conversation. Content that is bait, not marketing.
+          {dict.networkBeam.paragraph}
         </p>
       </div>
     </section>

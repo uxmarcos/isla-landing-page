@@ -1,6 +1,6 @@
 import KanbanMockup from "@/components/KanbanMockup";
 import BrowserFrame from "@/components/ui/BrowserFrame";
-import heroKanbanMobile from "@/assets/hero-kanban-mobile.png.asset.json";
+import heroKanbanMobile from "@/assets/hero-kanban-mobile.png";
 
 export function HeroShowcase() {
   return (
@@ -26,7 +26,7 @@ export function HeroShowcase() {
         <div className="isla-window-open md:hidden">
           <div className="relative -mx-[10px] overflow-hidden">
             <img
-              src={heroKanbanMobile.url}
+              src={heroKanbanMobile}
               alt="Isla Lead Board kanban with leads moving from first signal to closed revenue"
               className="block w-full max-w-none object-cover"
               loading="eager"

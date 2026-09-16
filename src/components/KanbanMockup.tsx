@@ -21,16 +21,16 @@ import {
 import MockSidebar from "@/components/kanban/MockSidebar";
 import AgentCursor, { type CursorPhase } from "@/components/kanban/AgentCursor";
 
-import F1 from "@/assets/avatars/F1.png.asset.json";
-import F2 from "@/assets/avatars/F2.png.asset.json";
-import F5 from "@/assets/avatars/F5.png.asset.json";
-import F6 from "@/assets/avatars/F6.png.asset.json";
-import F8 from "@/assets/avatars/F8.png.asset.json";
-import M1 from "@/assets/avatars/M1.png.asset.json";
-import M2 from "@/assets/avatars/M2.png.asset.json";
-import M3 from "@/assets/avatars/M3.png.asset.json";
-import M5 from "@/assets/avatars/M5.png.asset.json";
-import M6 from "@/assets/avatars/M6.png.asset.json";
+import F1 from "@/assets/avatars/F1.png";
+import F2 from "@/assets/avatars/F2.png";
+import F5 from "@/assets/avatars/F5.png";
+import F6 from "@/assets/avatars/F6.png";
+import F8 from "@/assets/avatars/F8.png";
+import M1 from "@/assets/avatars/M1.png";
+import M2 from "@/assets/avatars/M2.png";
+import M3 from "@/assets/avatars/M3.png";
+import M5 from "@/assets/avatars/M5.png";
+import M6 from "@/assets/avatars/M6.png";
 import P1 from "@/assets/avatars/gen/p1.jpg";
 import P2 from "@/assets/avatars/gen/p2.jpg";
 import P3 from "@/assets/avatars/gen/p3.jpg";
@@ -47,16 +47,7 @@ import P13 from "@/assets/avatars/gen/p13.jpg";
 import P14 from "@/assets/avatars/gen/p14.jpg";
 
 const AVATARS: Record<string, string> = {
-  F1: F1.url,
-  F2: F2.url,
-  F5: F5.url,
-  F6: F6.url,
-  F8: F8.url,
-  M1: M1.url,
-  M2: M2.url,
-  M3: M3.url,
-  M5: M5.url,
-  M6: M6.url,
+  F1, F2, F5, F6, F8, M1, M2, M3, M5, M6,
   P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13, P14,
 };
 

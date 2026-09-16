@@ -1,42 +1,10 @@
 import { ArrowRight } from "lucide-react";
 import { getStartedProps } from "@/hooks/useCalBooking";
+import { useLocale } from "@/hooks/useLocale";
 
 type Variant = "light" | "mid" | "dark";
 
-type Card = {
-  tag: string;
-  index: string;
-  title: string;
-  description: string;
-  variant: Variant;
-};
-
-const cards: Card[] = [
-  {
-    tag: "Founders",
-    index: "PROFILE 01",
-    title: "Founders building in public",
-    description:
-      "You're building something big and want the market to see it. Isla engages your ICP 24/7 while you focus on the product.",
-    variant: "light",
-  },
-  {
-    tag: "Teams",
-    index: "PROFILE 02",
-    title: "B2B marketing teams",
-    description:
-      "A shared calendar with content ready every week. Approvals, analytics and a dedicated person to execute it all.",
-    variant: "mid",
-  },
-  {
-    tag: "Duos",
-    index: "PROFILE 03",
-    title: "Founder + first hire",
-    description:
-      "Isla is the third teammate: it monitors, runs the calendar and shows analytics. You just approve and reap the results.",
-    variant: "dark",
-  },
-];
+const cardVariants: Variant[] = ["light", "mid", "dark"];
 
 const styles: Record<
   Variant,
@@ -96,7 +64,9 @@ const styles: Record<
 };
 
 export function WhoItsFor() {
-  
+  const { dict } = useLocale();
+  const cards = dict.whoItsFor.cards.map((c, i) => ({ ...c, variant: cardVariants[i] }));
+
   return (
     <>
     <style>{`
@@ -113,15 +83,15 @@ export function WhoItsFor() {
         {/* Header */}
         <div className="flex flex-col items-start text-left">
           <span className="inline-flex items-center rounded-full bg-isla-cyan px-3 py-1 text-[12px] font-semibold uppercase tracking-wider text-white">
-            Who it's for
+            {dict.whoItsFor.badge}
           </span>
           <h2
             className="font-display mt-5 max-w-3xl text-[40px] font-medium leading-[1.1] text-slate-900 md:text-[56px] dark:text-white"
             style={{ letterSpacing: "-0.5px" }}
           >
-            From solo founders
+            {dict.whoItsFor.headingLine1}
             <br />
-            to B2B marketing teams.
+            {dict.whoItsFor.headingLine2}
           </h2>
         </div>
 
@@ -180,7 +150,7 @@ export function WhoItsFor() {
                   <span
                     className={`font-mono text-[11px] uppercase tracking-[0.2em] ${s.footerLabel}`}
                   >
-                    Learn more
+                    {dict.whoItsFor.learnMore}
                   </span>
                 </div>
 
