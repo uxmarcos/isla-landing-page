@@ -7,6 +7,9 @@ import { useCalBooking, calBookingProps, getStartedProps } from "@/hooks/useCalB
 const SEAT_PRICE = 100;
 const YEARLY_SEAT_PRICE = 70;
 
+const AUTOPILOT_MONTHLY_PRICE = 999;
+const AUTOPILOT_YEARLY_PRICE = 500;
+
 const billingOptions = [
   { id: "monthly", label: "Monthly", note: "", price: SEAT_PRICE },
   { id: "yearly", label: "Yearly", note: "Save 30%", price: YEARLY_SEAT_PRICE },
@@ -121,6 +124,9 @@ export function PricingSection() {
     billingOptions.find((b) => b.id === billing)?.price ?? SEAT_PRICE;
   const isYearly = billing === "yearly";
   const total = pricePerSeat * selfSeats;
+  const autopilotPrice = isYearly
+    ? AUTOPILOT_YEARLY_PRICE
+    : AUTOPILOT_MONTHLY_PRICE;
 
   return (
     <section
@@ -248,17 +254,31 @@ export function PricingSection() {
 
               <div className="flex flex-col gap-3">
                 <div className="flex items-baseline gap-2">
-                  <span
-                    className="font-display text-[32px] font-bold leading-[38px] text-[#2C2C2C] dark:text-white"
-                    style={{ letterSpacing: "-1px" }}
-                  >
-                    Custom pricing
+                  <AnimatePresence mode="popLayout" initial={false}>
+                    <motion.span
+                      key={autopilotPrice}
+                      initial={{ opacity: 0, y: 8 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -8, position: "absolute" }}
+                      transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
+                      className="font-display text-[32px] font-bold leading-[38px] text-[#2C2C2C] dark:text-white"
+                      style={{ letterSpacing: "-1px" }}
+                    >
+                      ${autopilotPrice.toLocaleString("en-US")}
+                    </motion.span>
+                  </AnimatePresence>
+                  {isYearly && (
+                    <span className="font-display text-[20px] font-semibold leading-[24px] text-[#696969]/70 line-through dark:text-white/40">
+                      ${AUTOPILOT_MONTHLY_PRICE.toLocaleString("en-US")}
+                    </span>
+                  )}
+                  <span className="text-[14px] text-[#696969] dark:text-white/60">
+                    /month
                   </span>
                 </div>
                 <p className="text-[14.5px] leading-[21.75px] text-[#696969] dark:text-white/65">
                   An Isla professional manages your content end to end, you
-                  never start from a blank page. Talk to us to get your plan
-                  and pricing.
+                  never start from a blank page.
                 </p>
               </div>
 
