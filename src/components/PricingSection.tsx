@@ -23,30 +23,30 @@ function SeatStepper({
   label: string;
 }) {
   return (
-    <div className="flex items-center justify-between gap-3 rounded-xl border border-[#D3D3D3] bg-white px-4 py-2.5 dark:border-[#2C2C2C] dark:bg-[#111111]">
-      <span className="text-[13.5px] font-medium text-[#696969] dark:text-white/65">
+    <div className="flex h-full items-center justify-center gap-1.5 rounded-xl border border-[#D3D3D3] bg-white px-2 py-2.5 sm:justify-between sm:gap-3 sm:px-4 dark:border-[#2C2C2C] dark:bg-[#111111]">
+      <span className="hidden text-[13.5px] font-medium text-[#696969] dark:text-white/65 sm:inline">
         {label}
       </span>
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-1.5 sm:gap-3">
         <button
           type="button"
           aria-label="Remove seat"
           onClick={() => setSeats(Math.max(1, seats - 1))}
-          className="flex h-7 w-7 items-center justify-center rounded-md border border-[#D3D3D3] text-[#2C2C2C] transition-colors hover:border-isla-cyan hover:text-isla-cyan disabled:opacity-40 dark:border-[#2C2C2C] dark:text-white"
+          className="flex h-6 w-6 shrink-0 items-center justify-center rounded-md border border-[#D3D3D3] text-[#2C2C2C] transition-colors hover:border-isla-cyan hover:text-isla-cyan disabled:opacity-40 sm:h-7 sm:w-7 dark:border-[#2C2C2C] dark:text-white"
           disabled={seats <= 1}
         >
-          <Minus className="h-3.5 w-3.5" strokeWidth={2.5} />
+          <Minus className="h-3 w-3 sm:h-3.5 sm:w-3.5" strokeWidth={2.5} />
         </button>
-        <span className="min-w-[1.5rem] text-center text-[15px] font-semibold tabular-nums text-[#2C2C2C] dark:text-white">
+        <span className="min-w-[1rem] text-center text-[13px] font-semibold tabular-nums text-[#2C2C2C] sm:min-w-[1.5rem] sm:text-[15px] dark:text-white">
           {seats}
         </span>
         <button
           type="button"
           aria-label="Add seat"
           onClick={() => setSeats(Math.min(50, seats + 1))}
-          className="flex h-7 w-7 items-center justify-center rounded-md border border-[#D3D3D3] text-[#2C2C2C] transition-colors hover:border-isla-cyan hover:text-isla-cyan dark:border-[#2C2C2C] dark:text-white"
+          className="flex h-6 w-6 shrink-0 items-center justify-center rounded-md border border-[#D3D3D3] text-[#2C2C2C] transition-colors hover:border-isla-cyan hover:text-isla-cyan sm:h-7 sm:w-7 dark:border-[#2C2C2C] dark:text-white"
         >
-          <Plus className="h-3.5 w-3.5" strokeWidth={2.5} />
+          <Plus className="h-3 w-3 sm:h-3.5 sm:w-3.5" strokeWidth={2.5} />
         </button>
       </div>
     </div>
@@ -205,20 +205,23 @@ export function PricingSection() {
                 </p>
               </div>
 
-              <SeatStepper seats={selfSeats} setSeats={setSelfSeats} label={p.seats} />
-
-              <a
-                {...getStartedProps}
-                href="https://app.isla.to/signup"
-                data-cta-location="pricing_self_service"
-                data-cta-label="Get Started"
-                className="group flex w-full cursor-pointer items-center justify-between gap-3 rounded-lg bg-isla-cyan py-1.5 pl-5 pr-1.5 text-[14.5px] font-semibold text-white transition-all duration-300 hover:brightness-110"
-              >
-                <SlideLabel primary={p.getStarted} />
-                <span className="flex h-9 w-9 items-center justify-center rounded-[3px] transition-transform duration-300 group-hover:rotate-45">
-                  <ArrowUpRight className="h-4 w-4" strokeWidth={2.5} />
-                </span>
-              </a>
+              <div className="flex items-stretch gap-3">
+                <div className="shrink-0">
+                  <SeatStepper seats={selfSeats} setSeats={setSelfSeats} label={p.seats} />
+                </div>
+                <a
+                  {...getStartedProps}
+                  href="https://app.isla.to/signup"
+                  data-cta-location="pricing_self_service"
+                  data-cta-label="Get Started"
+                  className="group flex min-w-0 flex-1 cursor-pointer items-center justify-between gap-3 rounded-lg bg-isla-cyan py-1.5 pl-5 pr-1.5 text-[14.5px] font-semibold text-white transition-all duration-300 hover:brightness-110"
+                >
+                  <SlideLabel primary={p.getStarted} />
+                  <span className="flex h-9 w-9 items-center justify-center rounded-[3px] transition-transform duration-300 group-hover:rotate-45">
+                    <ArrowUpRight className="h-4 w-4" strokeWidth={2.5} />
+                  </span>
+                </a>
+              </div>
             </div>
 
 
@@ -271,20 +274,23 @@ export function PricingSection() {
                 </p>
               </div>
 
-              <SeatStepper seats={managedSeats} setSeats={setManagedSeats} label={p.seats} />
-
-              <button
-                type="button"
-                {...calBookingProps}
-                data-cta-location="pricing_managed"
-                data-cta-label="Book a Call"
-                className="group flex w-full cursor-pointer items-center justify-between gap-3 rounded-lg bg-isla-cyan py-1.5 pl-5 pr-1.5 text-[14.5px] font-semibold text-white transition-all duration-300 hover:brightness-110"
-              >
-                <SlideLabel primary={p.bookACall} />
-                <span className="flex h-9 w-9 items-center justify-center rounded-[3px] transition-transform duration-300 group-hover:rotate-45">
-                  <ArrowUpRight className="h-4 w-4" strokeWidth={2.5} />
-                </span>
-              </button>
+              <div className="flex items-stretch gap-3">
+                <div className="shrink-0">
+                  <SeatStepper seats={managedSeats} setSeats={setManagedSeats} label={p.seats} />
+                </div>
+                <button
+                  type="button"
+                  {...calBookingProps}
+                  data-cta-location="pricing_managed"
+                  data-cta-label="Book a Call"
+                  className="group flex min-w-0 flex-1 cursor-pointer items-center justify-between gap-3 rounded-lg bg-isla-cyan py-1.5 pl-5 pr-1.5 text-[14.5px] font-semibold text-white transition-all duration-300 hover:brightness-110"
+                >
+                  <SlideLabel primary={p.bookACall} />
+                  <span className="flex h-9 w-9 items-center justify-center rounded-[3px] transition-transform duration-300 group-hover:rotate-45">
+                    <ArrowUpRight className="h-4 w-4" strokeWidth={2.5} />
+                  </span>
+                </button>
+              </div>
             </div>
 
             <FeatureList features={p.autopilot.features} expanded={expanded} />
