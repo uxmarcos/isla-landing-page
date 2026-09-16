@@ -1,13 +1,11 @@
 import { Link, createFileRoute, notFound } from "@tanstack/react-router";
-import { useState } from "react";
-import { Facebook, Twitter, Instagram, Linkedin, Youtube, ChevronRight, CheckCircle2 } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 import { fetchBlogPost } from "@/lib/blog.functions";
 import { BlogCard } from "./blog.index";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import FinalCTA from "@/components/FinalCTA";
 import { BlogPostSkeleton } from "@/components/BlogSkeletons";
-import { supabase } from "@/integrations/supabase/client";
 import { useLocale } from "@/hooks/useLocale";
 
 export const Route = createFileRoute("/blog/$slug")({
@@ -118,14 +116,6 @@ function formatDate(iso: string | null, locale: "en" | "pt") {
   }
 }
 
-const SOCIALS = [
-  { Icon: Facebook, label: "Facebook", count: "12k", href: "#" },
-  { Icon: Twitter, label: "Twitter", count: "2k", href: "#" },
-  { Icon: Instagram, label: "Instagram", count: "4k", href: "#" },
-  { Icon: Linkedin, label: "LinkedIn", count: "78k", href: "#" },
-  { Icon: Youtube, label: "YouTube", count: "65k", href: "#" },
-];
-
 function BlogPostPage() {
   const { post, related } = Route.useLoaderData();
   const { dict, locale } = useLocale();
@@ -167,7 +157,7 @@ function BlogPostPage() {
             <span className="truncate text-neutral-700">{post.title}</span>
           </nav>
         </div>
-        <div className="mx-auto grid max-w-6xl grid-cols-1 gap-12 px-6 pt-6 pb-20 lg:grid-cols-[1fr_300px] lg:gap-16">
+        <div className="mx-auto max-w-3xl px-6 pt-6 pb-20">
           <article className="min-w-0">
             <header className="mb-8">
               {post.category && (
@@ -204,10 +194,6 @@ function BlogPostPage() {
               dangerouslySetInnerHTML={{ __html: post.contentHtml }}
             />
           </article>
-
-          <aside className="lg:sticky lg:top-24 lg:self-start">
-            <NewsletterCard />
-          </aside>
         </div>
       </section>
 
@@ -240,80 +226,5 @@ function BlogPostPage() {
       <FinalCTA />
       <Footer />
     </main>
-  );
-}
-
-function NewsletterCard() {
-  const { dict } = useLocale();
-  const [email, setEmail] = useState("");
-  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
-  const [errorMsg, setErrorMsg] = useState("");
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!email) return;
-    setStatus("loading");
-    setErrorMsg("");
-    const { error } = await supabase
-      .from("newsletter_subscribers")
-      .insert({ email });
-    if (error) {
-      if (error.code === "23505") {
-        setStatus("success");
-      } else {
-        setStatus("error");
-        setErrorMsg(error.message);
-      }
-      return;
-    }
-    setStatus("success");
-  };
-
-  if (status === "success") {
-    return (
-      <div className="rounded-lg border border-neutral-200 dark:border-[#2C2C2C] p-6">
-        <div className="flex flex-col items-center text-center">
-          <div className="flex h-12 w-12 items-center justify-center rounded-full bg-isla-cyan/10">
-            <CheckCircle2 className="h-6 w-6 text-isla-cyan" />
-          </div>
-          <h3 className="mt-4 text-sm font-semibold text-neutral-900 dark:text-white">
-            {dict.blogPost.subscribedHeading}
-          </h3>
-          <p className="mt-1 text-xs leading-relaxed text-neutral-500 dark:text-white/45">
-            {dict.blogPost.subscribedBody}
-          </p>
-        </div>
-      </div>
-    );
-  }
-
-  return (
-    <div className="rounded-lg border border-neutral-200 dark:border-[#2C2C2C] p-6">
-      <h3 className="text-sm font-semibold text-neutral-900 dark:text-white">{dict.blogPost.subscriptionHeading}</h3>
-      <p className="mt-1 text-xs leading-relaxed text-neutral-500 dark:text-white/45">
-        {dict.blogPost.subscriptionBody}
-      </p>
-      <form className="mt-4 flex flex-col gap-3" onSubmit={handleSubmit}>
-        <input
-          type="email"
-          required
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          disabled={status === "loading"}
-          placeholder={dict.blogPost.emailPlaceholder}
-          className="rounded-md border border-neutral-200 dark:border-[#2C2C2C] bg-white dark:bg-[#0A0A0A] px-3 py-2 text-sm text-neutral-900 dark:text-white outline-none placeholder:text-neutral-400 focus:border-isla-cyan disabled:opacity-60"
-        />
-        <button
-          type="submit"
-          disabled={status === "loading"}
-          className="rounded-md bg-isla-cyan py-2 text-sm font-semibold text-white shadow-[0_6px_20px_rgba(0,191,255,0.3)] transition-transform hover:scale-[1.01] disabled:opacity-60"
-        >
-          {status === "loading" ? dict.blogPost.subscribing : dict.blogPost.subscribe}
-        </button>
-        {status === "error" && (
-          <p className="text-[11px] text-red-600">{errorMsg || dict.blogPost.subscribeError}</p>
-        )}
-      </form>
-    </div>
   );
 }

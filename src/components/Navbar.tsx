@@ -175,8 +175,8 @@ export function Navbar() {
 
         {/* Right actions */}
         <div className="flex items-center gap-3">
-          <LanguageToggle />
-          <ThemeToggle />
+          <LanguageToggle onDarkSurface={isDark} />
+          <ThemeToggle onDarkSurface={isDark} />
           <a
             {...getStartedProps}
             data-cta-location="navbar"

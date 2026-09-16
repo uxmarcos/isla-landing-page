@@ -186,13 +186,17 @@
     border-color: var(--color-border);
   }
 
+  html {
+    scrollbar-gutter: stable;
+  }
+
   html, body {
     max-width: 100%;
     overflow-x: clip;
   }
 
   body {
-    background-color: #000;
+    background-color: #fff;
     color: var(--color-foreground);
     font-family: "DM Sans", ui-sans-serif, system-ui, sans-serif;
   }

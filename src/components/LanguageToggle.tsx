@@ -12,8 +12,20 @@ const OPTIONS: { locale: Locale; label: string }[] = [
   { locale: "pt", label: "PT-BR" },
 ];
 
-/** Language dropdown, styled to match ThemeToggle's icon-button footprint. */
-export function LanguageToggle({ className }: { className?: string }) {
+/**
+ * Language dropdown, styled to match ThemeToggle's icon-button footprint.
+ *
+ * `onDarkSurface` reflects the navbar's section-aware theme (e.g. scrolled
+ * over a dark footer while the site itself is in light mode) — it's what
+ * decides the button's own colors, independently of the global theme.
+ */
+export function LanguageToggle({
+  className,
+  onDarkSurface = false,
+}: {
+  className?: string;
+  onDarkSurface?: boolean;
+}) {
   const { locale, setLocale, dict } = useLocale();
   const current = OPTIONS.find((o) => o.locale === locale) ?? OPTIONS[0];
 
@@ -25,8 +37,9 @@ export function LanguageToggle({ className }: { className?: string }) {
           aria-label={dict.language.label}
           className={cn(
             "relative inline-flex h-9 min-w-9 cursor-pointer items-center justify-center rounded-[4px] border px-2 text-[12px] font-bold tracking-wide transition-colors duration-500",
-            "border-slate-200 text-slate-600 hover:bg-slate-100 hover:text-slate-900",
-            "dark:border-white/15 dark:text-white/80 dark:hover:bg-white/10 dark:hover:text-white",
+            onDarkSurface
+              ? "border-white/15 text-white/80 hover:bg-white/10 hover:text-white"
+              : "border-slate-200 text-slate-600 hover:bg-slate-100 hover:text-slate-900",
             className,
           )}
         >

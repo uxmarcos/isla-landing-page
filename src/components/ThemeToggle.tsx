@@ -3,8 +3,20 @@ import { Moon, Sun } from "lucide-react";
 import { useTheme } from "@/hooks/useTheme";
 import { cn } from "@/lib/utils";
 
-/** Light/Dark toggle with a circular view-transition reveal from the button. */
-export function ThemeToggle({ className }: { className?: string }) {
+/**
+ * Light/Dark toggle with a circular view-transition reveal from the button.
+ *
+ * `onDarkSurface` reflects the navbar's section-aware theme (e.g. scrolled
+ * over a dark footer while the site itself is in light mode) — it's what
+ * decides the button's own colors, independently of the global theme.
+ */
+export function ThemeToggle({
+  className,
+  onDarkSurface = false,
+}: {
+  className?: string;
+  onDarkSurface?: boolean;
+}) {
   const { isDark, toggleTheme } = useTheme();
   const ref = useRef<HTMLButtonElement>(null);
 
@@ -23,8 +35,9 @@ export function ThemeToggle({ className }: { className?: string }) {
       aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
       className={cn(
         "relative inline-flex size-9 cursor-pointer items-center justify-center rounded-[4px] border transition-colors duration-500",
-        "border-slate-200 text-slate-600 hover:bg-slate-100 hover:text-slate-900",
-        "dark:border-white/15 dark:text-white/80 dark:hover:bg-white/10 dark:hover:text-white",
+        onDarkSurface
+          ? "border-white/15 text-white/80 hover:bg-white/10 hover:text-white"
+          : "border-slate-200 text-slate-600 hover:bg-slate-100 hover:text-slate-900",
         className,
       )}
     >
