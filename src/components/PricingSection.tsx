@@ -2,11 +2,8 @@ import { useRef, useState } from "react";
 import { AnimatePresence, motion, useInView } from "framer-motion";
 import { CheckCircle2, ArrowUpRight, Minus, Plus } from "lucide-react";
 import SlideLabel from "@/components/ui/SlideLabel";
-import { useCalBooking, calBookingProps, getStartedProps } from "@/hooks/useCalBooking";
+import { useCalBooking, calBookingProps } from "@/hooks/useCalBooking";
 import { useLocale } from "@/hooks/useLocale";
-
-const SEAT_PRICE = 100;
-const YEARLY_SEAT_PRICE = 70;
 
 const AUTOPILOT_MONTHLY_PRICE = 999;
 const AUTOPILOT_YEARLY_PRICE = 500;
@@ -102,18 +99,14 @@ export function PricingSection() {
   const p = dict.pricing;
 
   const billingOptions = [
-    { id: "monthly" as const, label: p.monthly, note: "", price: SEAT_PRICE },
-    { id: "yearly" as const, label: p.yearly, note: p.save30, price: YEARLY_SEAT_PRICE },
+    { id: "monthly" as const, label: p.monthly, note: "" },
+    { id: "yearly" as const, label: p.yearly, note: p.save30 },
   ];
 
   const [billing, setBilling] = useState<BillingId>("monthly");
-  const [selfSeats, setSelfSeats] = useState(1);
   const [managedSeats, setManagedSeats] = useState(1);
 
-  const pricePerSeat =
-    billingOptions.find((b) => b.id === billing)?.price ?? SEAT_PRICE;
   const isYearly = billing === "yearly";
-  const total = pricePerSeat * selfSeats;
   const autopilotPricePerSeat = isYearly
     ? AUTOPILOT_YEARLY_PRICE
     : AUTOPILOT_MONTHLY_PRICE;
@@ -161,73 +154,7 @@ export function PricingSection() {
 
 
 
-        <div
-          ref={cardRef}
-          className="grid w-full grid-cols-1 items-stretch gap-6 md:grid-cols-2 md:gap-8"
-        >
-          {/* Self Service */}
-          <motion.article
-            animate={{ paddingBottom: expanded ? 41 : 13 }}
-            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-            className="flex h-full w-full flex-col rounded-[40px] border border-[#D3D3D3] bg-white p-[13px] dark:border-[#2C2C2C] dark:bg-[#111111]"
-          >
-            <div className="flex flex-col justify-start gap-5 rounded-[28px] border border-[#D3D3D3] bg-[#FBFBFB] p-5 dark:border-[#2C2C2C] dark:bg-[#1A1A1A]">
-              <p className="text-[20px] font-semibold leading-6 text-[#2C2C2C] dark:text-white">
-                {p.copilot.name}
-              </p>
-
-              <div className="flex flex-col gap-3">
-                <div className="flex items-baseline gap-2">
-                  <AnimatePresence mode="popLayout" initial={false}>
-                    <motion.span
-                      key={total}
-                      initial={{ opacity: 0, y: 8 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -8, position: "absolute" }}
-                      transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
-                      className="font-display text-[32px] font-bold leading-[38px] text-[#2C2C2C] dark:text-white"
-                      style={{ letterSpacing: "-1px" }}
-                    >
-                      ${total.toLocaleString("en-US")}
-                    </motion.span>
-                  </AnimatePresence>
-                  {isYearly && (
-                    <span className="font-display text-[20px] font-semibold leading-[24px] text-[#696969]/70 line-through dark:text-white/40">
-                      ${(SEAT_PRICE * selfSeats).toLocaleString("en-US")}
-                    </span>
-                  )}
-                  <span className="text-[14px] text-[#696969] dark:text-white/60">
-                    {p.perMonth}
-                  </span>
-                </div>
-                <p className="text-[14.5px] leading-[21.75px] text-[#696969] dark:text-white/65">
-                  {p.copilot.description}
-                </p>
-              </div>
-
-              <div className="flex items-stretch gap-3">
-                <div className="shrink-0">
-                  <SeatStepper seats={selfSeats} setSeats={setSelfSeats} label={p.seats} />
-                </div>
-                <a
-                  {...getStartedProps}
-                  href="https://app.isla.to/signup"
-                  data-cta-location="pricing_self_service"
-                  data-cta-label="Get Started"
-                  className="group flex min-w-0 flex-1 cursor-pointer items-center justify-between gap-3 rounded-lg bg-isla-cyan py-1.5 pl-5 pr-1.5 text-[14.5px] font-semibold text-white transition-all duration-300 hover:brightness-110"
-                >
-                  <SlideLabel primary={p.getStarted} />
-                  <span className="flex h-9 w-9 items-center justify-center rounded-[3px] transition-transform duration-300 group-hover:rotate-45">
-                    <ArrowUpRight className="h-4 w-4" strokeWidth={2.5} />
-                  </span>
-                </a>
-              </div>
-            </div>
-
-
-            <FeatureList features={p.copilot.features} expanded={expanded} />
-          </motion.article>
-
+        <div ref={cardRef} className="mx-auto w-full max-w-xl">
           {/* Managed */}
           <motion.article
             animate={{ paddingBottom: expanded ? 41 : 13 }}
@@ -283,11 +210,11 @@ export function PricingSection() {
                   {...calBookingProps}
                   data-cta-location="pricing_managed"
                   data-cta-label="Book a Call"
-                  className="group flex min-w-0 flex-1 cursor-pointer items-center justify-between gap-3 rounded-lg bg-isla-cyan py-1.5 pl-5 pr-1.5 text-[14.5px] font-semibold text-white transition-all duration-300 hover:brightness-110"
+                  className="group flex min-w-0 flex-1 cursor-pointer items-center justify-between gap-1.5 rounded-lg bg-isla-cyan py-1.5 pl-3 pr-1 text-[12.5px] font-semibold text-white transition-all duration-300 hover:brightness-110 sm:gap-3 sm:pl-5 sm:pr-1.5 sm:text-[14.5px]"
                 >
-                  <SlideLabel primary={p.bookACall} />
-                  <span className="flex h-9 w-9 items-center justify-center rounded-[3px] transition-transform duration-300 group-hover:rotate-45">
-                    <ArrowUpRight className="h-4 w-4" strokeWidth={2.5} />
+                  <SlideLabel className="whitespace-nowrap" primary={p.bookACall} />
+                  <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-[3px] transition-transform duration-300 group-hover:rotate-45 sm:h-9 sm:w-9">
+                    <ArrowUpRight className="h-3.5 w-3.5 sm:h-4 sm:w-4" strokeWidth={2.5} />
                   </span>
                 </button>
               </div>

@@ -285,30 +285,19 @@ const en = {
     save30: "Save 30%",
     perMonth: "/month",
     seats: "Seats",
-    getStarted: "Get Started",
     bookACall: "Book a Call",
     managedBadge: "MANAGED",
-    copilot: {
-      name: "Copilot",
-      description:
-        "You run your own content with Isla's agents, keeping full control of your pipeline while the AI does the heavy lifting.",
-      features: [
-        "AI agents that take actions to grow your account",
-        "Content ideas and AI interview drafts",
-        "Advanced analytics",
-        "Growth alerts and account monitoring",
-      ],
-    },
     autopilot: {
       name: "Autopilot",
       description:
-        "An Isla professional manages your content end to end, you never start from a blank page.",
+        "An Isla professional creates and publishes your content end to end — you just approve.",
       features: [
-        "Everything in Self Service",
         "A dedicated Isla professional managing your content",
-        "Fully managed content creation and review",
+        "Content created and published for you — you just approve",
+        "AI agents that take actions to grow your account",
+        "Advanced analytics",
+        "Growth alerts and account monitoring",
         "Weekly 20-min strategy call",
-        "Priority support",
       ],
     },
   },
@@ -775,30 +764,19 @@ const pt: typeof en = {
     save30: "Economize 30%",
     perMonth: "/mês",
     seats: "Assentos",
-    getStarted: "Começar agora",
     bookACall: "Agendar uma call",
     managedBadge: "GERENCIADO",
-    copilot: {
-      name: "Copilot",
-      description:
-        "Você toca seu próprio conteúdo com os agentes da Isla, mantendo controle total do seu pipeline enquanto a IA faz o trabalho pesado.",
-      features: [
-        "Agentes de IA que tomam ações para fazer sua conta crescer",
-        "Ideias de conteúdo e rascunhos de entrevista com IA",
-        "Analytics avançado",
-        "Alertas de crescimento e monitoramento da conta",
-      ],
-    },
     autopilot: {
       name: "Autopilot",
       description:
-        "Um profissional da Isla gerencia seu conteúdo de ponta a ponta, você nunca parte da página em branco.",
+        "Um profissional da Isla cria e publica seu conteúdo de ponta a ponta — você só aprova.",
       features: [
-        "Tudo do plano Self Service",
         "Um profissional dedicado da Isla gerenciando seu conteúdo",
-        "Criação e revisão de conteúdo totalmente gerenciadas",
+        "Conteúdo criado e publicado pra você — você só aprova",
+        "Agentes de IA que tomam ações para fazer sua conta crescer",
+        "Analytics avançado",
+        "Alertas de crescimento e monitoramento da conta",
         "Call estratégica semanal de 20 minutos",
-        "Suporte prioritário",
       ],
     },
   },
