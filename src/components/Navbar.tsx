@@ -12,7 +12,7 @@ import islaWordmark from "@/assets/isla-wordmark.svg";
 const linkHrefs = [
   { key: "howItWorks", href: "#how-it-works" },
   { key: "ideaDeck", href: "#conteudo" },
-  { key: "aiInterview", href: "#interview" },
+  // "aiInterview" nav link removed while AiInterviewSection is hidden (see index.tsx)
   { key: "testimonials", href: "#testimonials" },
   { key: "pricing", href: "#pricing" },
 ] as const;

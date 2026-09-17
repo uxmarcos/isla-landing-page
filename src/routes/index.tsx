@@ -5,7 +5,9 @@ import TrustedBy from "@/components/TrustedBy";
 import HeroShowcase from "@/components/HeroShowcase";
 import JourneySection from "@/components/JourneySection";
 import ContentSwipeSection from "@/components/ContentSwipeSection";
-import AiInterviewSection from "@/components/AiInterviewSection";
+// AiInterviewSection is temporarily disabled for the managed-service positioning
+// (customers no longer refine posts themselves) — kept intact to re-enable later.
+// import AiInterviewSection from "@/components/AiInterviewSection";
 import FeedbackLoopSection from "@/components/FeedbackLoopSection";
 import WhoItsFor from "@/components/WhoItsFor";
 import PricingSection from "@/components/PricingSection";
@@ -30,7 +32,7 @@ function Index() {
       <HeroShowcase />
       <JourneySection />
       <ContentSwipeSection />
-      <AiInterviewSection />
+      {/* <AiInterviewSection /> — hidden for now, see import comment above */}
       <FeedbackLoopSection />
       <TestimonialsSection />
       <WhoItsFor />

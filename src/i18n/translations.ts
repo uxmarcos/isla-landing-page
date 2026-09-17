@@ -89,8 +89,8 @@ const en = {
         desc: "Approve, skip or save ideas. Isla continuously learns your preferences.",
       },
       {
-        title: "Refine and publish",
-        desc: "After choosing an idea, Isla interviews you and turns it into a polished first draft.",
+        title: "We write it",
+        desc: "Our team turns each idea you pick into a finished, ready-to-publish post.",
       },
     ],
     ideas: [
@@ -221,7 +221,7 @@ const en = {
         label: "Content",
         title: "Research becomes content.",
         description:
-          "Instead of starting from a blank page, Isla turns research into content ideas, interviews you, and drafts posts designed to attract your ICP.",
+          "Instead of starting from a blank page, Isla turns research into content ideas and drafts posts designed to attract your ICP.",
       },
       {
         label: "Buying Signals",
@@ -307,7 +307,7 @@ const en = {
     columns: [
       {
         label: "Isla",
-        cost: "$70/mo per account",
+        cost: "$500/mo",
         missing: "Network growth, warming, content and measurement as one loop, run for you.",
       },
       {
@@ -568,8 +568,8 @@ const pt: typeof en = {
         desc: "Aprove, pule ou salve ideias. A Isla aprende continuamente suas preferências.",
       },
       {
-        title: "Refine e publique",
-        desc: "Depois de escolher uma ideia, a Isla te entrevista e transforma tudo em um primeiro rascunho pronto.",
+        title: "A gente escreve",
+        desc: "Nosso time transforma cada ideia escolhida por você em um post pronto pra publicar.",
       },
     ],
     ideas: [
@@ -700,7 +700,7 @@ const pt: typeof en = {
         label: "Conteúdo",
         title: "A pesquisa vira conteúdo.",
         description:
-          "Em vez de começar da página em branco, a Isla transforma pesquisa em ideias de conteúdo, te entrevista e rascunha posts pensados para atrair seu ICP.",
+          "Em vez de começar da página em branco, a Isla transforma pesquisa em ideias de conteúdo e rascunha posts pensados para atrair seu ICP.",
       },
       {
         label: "Sinais de Compra",
@@ -786,7 +786,7 @@ const pt: typeof en = {
     columns: [
       {
         label: "Isla",
-        cost: "R$70/mês por conta",
+        cost: "R$500/mês",
         missing: "Crescimento de rede, aquecimento, conteúdo e medição como um único loop, feito para você.",
       },
       {
