@@ -53,7 +53,7 @@ const en = {
       },
       {
         title: "Create content designed for your ICP",
-        body: "Isla researches your niche, market news and winning topics, then pairs it with short interviews to capture your voice.",
+        body: "Your dedicated Isla professional reviews the ideas you liked and turns them into a ready-to-post draft for your approval.",
       },
       {
         title: "Publish and measure ICP impact",
@@ -532,7 +532,7 @@ const pt: typeof en = {
       },
       {
         title: "Crie conteúdo pensado para o seu ICP",
-        body: "A Isla pesquisa seu nicho, notícias do mercado e temas em alta, e combina isso com entrevistas curtas para capturar sua voz.",
+        body: "Seu profissional dedicado da Isla revisa as ideias que você curtiu e transforma em um rascunho pronto para você aprovar.",
       },
       {
         title: "Publique e meça o impacto no ICP",
