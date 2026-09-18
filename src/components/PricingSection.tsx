@@ -100,7 +100,7 @@ export function PricingSection() {
 
   const billingOptions = [
     { id: "monthly" as const, label: p.monthly, note: "" },
-    { id: "yearly" as const, label: p.yearly, note: p.save30 },
+    { id: "yearly" as const, label: p.yearly, note: p.save50 },
   ];
 
   const [billing, setBilling] = useState<BillingId>("monthly");
