@@ -186,12 +186,11 @@ const en = {
       "Every interaction creates context. Every conversation improves future decisions. Every new signal helps Isla understand what leads to meetings, creating a system that continuously improves itself.",
     newResearch: "New research this week",
     insightsSuffix: "insights",
-    scanning: "Scanning ICP conversations…",
     researchItems: [
       "Competitor post analyzed",
       "Industry trend detected",
-      "Customer interview parsed",
-      "Product announcement indexed",
+      "Post engagement analyzed",
+      "ICP conversations scanned",
     ],
     contentSteps: ["Research", "Idea", "Interview", "Draft", "Scheduled"],
     kpis: [
@@ -665,12 +664,11 @@ const pt: typeof en = {
       "Cada interação cria contexto. Cada conversa melhora as próximas decisões. Cada novo sinal ajuda a Isla a entender o que leva a reuniões, criando um sistema que se aprimora continuamente.",
     newResearch: "Nova pesquisa esta semana",
     insightsSuffix: "insights",
-    scanning: "Analisando conversas do ICP…",
     researchItems: [
       "Post de concorrente analisado",
       "Tendência do setor detectada",
-      "Entrevista com cliente processada",
-      "Anúncio de produto indexado",
+      "Engajamento do post analisado",
+      "Conversas do ICP analisadas",
     ],
     contentSteps: ["Pesquisa", "Ideia", "Entrevista", "Rascunho", "Agendado"],
     kpis: [
@@ -786,22 +784,22 @@ const pt: typeof en = {
     columns: [
       {
         label: "Isla",
-        cost: "R$500/mês",
+        cost: "$500/mês",
         missing: "Crescimento de rede, aquecimento, conteúdo e medição como um único loop, feito para você.",
       },
       {
         label: "Agência de conteúdo",
-        cost: "R$2.000–5.000/mês",
+        cost: "$2.000–5.000/mês",
         missing: "Posts, e nada depois disso. Sem crescimento de rede, sem medição, sem follow-up.",
       },
       {
         label: "SDR + stack de outbound",
-        cost: "R$6.000+/mês com encargos",
+        cost: "$6.000+/mês com encargos",
         missing: "Manda mensagem para estranhos. Ignora os compradores aquecidos que já estão na sua rede.",
       },
       {
         label: "Uma ferramenta de LinkedIn",
-        cost: "R$100–500/mês",
+        cost: "$100–500/mês",
         missing: "Um dashboard que alguém precisa lembrar de abrir. Sem conteúdo, sem pesquisa, sem operador.",
       },
       {

@@ -58,7 +58,7 @@ export function WhyNotSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.5 }}
           transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-          className="font-display mx-auto flex w-full max-w-[908px] flex-col items-start gap-[10px] whitespace-normal border border-[#D3D3D3] bg-white px-6 py-4 text-[34px] font-light leading-[1.12] text-slate-900 md:whitespace-nowrap md:text-[clamp(20px,4.2vw,52px)] dark:border-[#2C2C2C] dark:bg-[#111111] dark:text-white"
+          className="font-display mx-auto flex w-full max-w-[908px] flex-col items-center gap-[10px] whitespace-normal border border-[#D3D3D3] bg-white px-6 py-4 text-center text-[34px] font-light leading-[1.12] text-slate-900 md:text-[clamp(20px,4.2vw,52px)] dark:border-[#2C2C2C] dark:bg-[#111111] dark:text-white"
           style={{ letterSpacing: "-0.4px" }}
         >
           {dict.whyNot.heading}
